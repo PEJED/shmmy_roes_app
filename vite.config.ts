@@ -4,7 +4,7 @@ import tailwindcss from '@tailwindcss/vite'
 
 // https://vite.dev/config/
 export default defineConfig({
-  base: '/simmy-roes-app/', // Make sure this matches your repo name
+  base: './', // Use relative paths for assets on GitHub Pages
   plugins: [
     react(),
     tailwindcss(),
