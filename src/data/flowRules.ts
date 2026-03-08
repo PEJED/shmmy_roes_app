@@ -86,9 +86,9 @@ export const FLOW_RULES: Record<string, { full: FlowRule; half: FlowRule | ((dir
   },
   'S': {
     full: {
-      description: "704, 4003, 4024 και 4023 ή 4070",
+      description: "704, 4003, 4024 και 4023 ή 806",
       compulsory: ['704', '4003', '4024'],
-      options: [['4023', '4070']],
+      options: [['4023', '806']],
       strict: true
     },
     half: {
@@ -99,14 +99,14 @@ export const FLOW_RULES: Record<string, { full: FlowRule; half: FlowRule | ((dir
   },
   'Z': {
     full: {
-      description: "4005, 609, 4025 και ένα εκ των 4026, 4027, 4072, 4073, 4074",
+      description: "4005, 609, 4025 και 4027 ή 4046",
       compulsory: ['4005', '609', '4025'],
-      options: [['4026', '4027', '4072', '4073', '4074']],
+      options: [['4027', '4046']],
       strict: true
     },
     half: {
       description: "4005, 609, 4025",
-      compulsory: ['4005', '4025', '609'],
+      compulsory: ['4005', '609', '4025'],
       strict: true
     }
   },
@@ -124,14 +124,14 @@ export const FLOW_RULES: Record<string, { full: FlowRule; half: FlowRule | ((dir
   },
   'O': {
     full: {
-      description: "τέσσερα εκ των 4009, 4010, 4031, 4055, 4056",
-      pool: ['4009', '4010', '4031', '4055', '4056'],
+      description: "τέσσερα εκ των 4009, 4010, 4031, 4055, 4080",
+      pool: ['4009', '4010', '4031', '4055', '4080'],
       required_count: 4,
       strict: true
     },
     half: {
-      description: "τρία εκ των 4009, 4010, 4031, 4055, 4056",
-      pool: ['4009', '4010', '4031', '4055', '4056'],
+      description: "τρία εκ των 4009, 4010, 4031, 4055, 4080",
+      pool: ['4009', '4010', '4031', '4055', '4080'],
       required_count: 3,
       strict: true
     }
