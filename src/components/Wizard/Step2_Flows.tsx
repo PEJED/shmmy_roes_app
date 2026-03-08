@@ -20,6 +20,8 @@ const Step2Flows: React.FC = () => {
 
   const combinations = COMBINATIONS[direction];
 
+  const configSectionRef = React.useRef<HTMLDivElement>(null);
+
   const handleCombinationSelect = (combId: string) => {
     if (selectedCombinationId === combId) return;
 
@@ -32,6 +34,10 @@ const Step2Flows: React.FC = () => {
         setFlowSelection(code, sel);
       });
     }
+
+    setTimeout(() => {
+       configSectionRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }, 50);
   };
 
   const currentComb = combinations.find(c => c.id === selectedCombinationId);
@@ -185,7 +191,7 @@ const Step2Flows: React.FC = () => {
       </div>
 
       {currentComb && (
-        <div className="bg-white p-8 rounded-3xl shadow-xl border border-gray-100 space-y-8 animate-in zoom-in-95 duration-300 mt-10 ring-1 ring-black/5">
+        <div ref={configSectionRef} className="bg-white p-8 rounded-3xl shadow-xl border border-gray-100 space-y-8 animate-in zoom-in-95 duration-300 mt-10 ring-1 ring-black/5 scroll-mt-24">
           <div className="flex items-center justify-between border-b border-gray-100 pb-4">
             <h3 className="text-xl font-black text-gray-800 tracking-tight">Διαμόρφωση Ροών</h3>
             <span className="text-[10px] font-bold px-3 py-1 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-full shadow-sm">Βήμα 2/3</span>
@@ -239,34 +245,34 @@ const Step2Flows: React.FC = () => {
                                  <div className="font-bold text-xs text-gray-800 mb-2 text-center truncate" title={FLOW_NAMES[code]}>
                                    {getGreekName(code)}
                                  </div>
-                                 <div className="flex gap-1.5 justify-center">
+                                 <div className="flex gap-2 justify-center">
                                      {!isFullOnly && (
                                           <button
                                               disabled={disabledHalf}
                                               onClick={() => handleOtherFlowChange(code, selection === 'half' ? 'none' : 'half')}
-                                              className={`px-2 py-1.5 rounded-lg text-[10px] font-bold transition-all border w-10 ${
+                                              className={`px-3 py-2 rounded-xl text-xs font-bold transition-all border flex-1 ${
                                                   selection === 'half'
-                                                  ? 'bg-indigo-600 text-white border-indigo-600 shadow-sm'
+                                                  ? 'bg-indigo-600 text-white border-indigo-600 shadow-sm scale-105'
                                                   : disabledHalf
                                                       ? 'bg-gray-100 text-gray-300 border-gray-100 cursor-not-allowed'
                                                       : 'bg-white text-gray-600 border-gray-200 hover:border-indigo-400 hover:text-indigo-600'
                                               }`}
                                           >
-                                              ½
+                                              ½ Μισή
                                           </button>
                                      )}
                                      <button
                                          disabled={disabledFull}
                                          onClick={() => handleOtherFlowChange(code, selection === 'full' ? 'none' : 'full')}
-                                         className={`flex-1 px-2 py-1.5 rounded-lg text-[10px] font-bold transition-all border ${
+                                         className={`px-3 py-2 rounded-xl text-xs font-bold transition-all border flex-1 ${
                                             selection === 'full'
-                                            ? 'bg-purple-600 text-white border-purple-600 shadow-sm'
+                                            ? 'bg-purple-600 text-white border-purple-600 shadow-sm scale-105'
                                             : disabledFull
                                                 ? 'bg-gray-100 text-gray-300 border-gray-100 cursor-not-allowed'
                                                 : 'bg-white text-gray-600 border-gray-200 hover:border-purple-400 hover:text-purple-600'
                                          }`}
                                      >
-                                         Full
+                                         Ολόκληρη
                                      </button>
                                  </div>
                              </div>
@@ -316,14 +322,14 @@ const Step2Flows: React.FC = () => {
         </div>
       )}
 
-      <div className="flex justify-between pt-8 border-t border-gray-200">
+      <div className="sticky bottom-4 z-40 mt-12 bg-white/80 backdrop-blur-md p-4 rounded-3xl border border-gray-200/50 shadow-[0_8px_30px_rgb(0,0,0,0.12)] flex justify-between items-center transition-all duration-300">
         <button
           onClick={() => {
              setStep(1);
              setSelectedCombinationId(null);
              resetFlowSelections();
           }}
-          className="px-6 py-3 rounded-2xl font-bold text-sm text-gray-600 hover:text-gray-900 hover:bg-gray-100 transition-colors flex items-center gap-2"
+          className="px-6 py-3 rounded-xl font-bold text-sm text-gray-600 hover:text-gray-900 hover:bg-gray-100 transition-colors flex items-center gap-2"
         >
           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" /></svg>
           Πίσω
@@ -331,9 +337,9 @@ const Step2Flows: React.FC = () => {
         <button
           disabled={!canContinue}
           onClick={() => setStep(3)}
-          className={`px-10 py-3 rounded-2xl font-bold text-sm text-white shadow-xl transition-all flex items-center gap-2 transform active:scale-95 ${
+          className={`px-10 py-3 rounded-xl font-bold text-sm text-white shadow-xl transition-all flex items-center gap-2 transform active:scale-95 ${
             canContinue
-              ? 'bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 hover:-translate-y-0.5 shadow-blue-200'
+              ? 'bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 hover:-translate-y-1 shadow-blue-200/50 ring-4 ring-blue-500/20'
               : 'bg-gray-300 cursor-not-allowed shadow-none'
           }`}
         >

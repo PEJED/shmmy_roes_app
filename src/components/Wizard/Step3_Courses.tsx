@@ -24,11 +24,13 @@ const Step3Courses: React.FC = () => {
 
   // Manage Expanded State at Top Level
   const [expandedSections, setExpandedSections] = useState<Record<string, boolean>>({
-      '6-comp': true, '6-flow': true, '6-free': false,
-      '7-comp': true, '7-flow': true, '7-free': false,
-      '8-comp': true, '8-flow': true, '8-free': false,
-      '9-comp': true, '9-flow': true, '9-free': false,
+      '6-comp': true, '6-flow': false, '6-free': false,
+      '7-comp': true, '7-flow': false, '7-free': false,
+      '8-comp': true, '8-flow': false, '8-free': false,
+      '9-comp': true, '9-flow': false, '9-free': false,
   });
+
+  const [showMobileSummary, setShowMobileSummary] = useState(false);
 
   const toggleSection = useCallback((sem: number, section: string) => {
       setExpandedSections(prev => ({ ...prev, [`${sem}-${section}`]: !prev[`${sem}-${section}`] }));
@@ -136,7 +138,7 @@ const Step3Courses: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-col lg:flex-row min-h-screen bg-gray-50">
+    <div className="flex flex-col lg:flex-row min-h-screen bg-gray-50 pb-24 lg:pb-0">
 
       {/* Main Content (Left) */}
       <div className="flex-1 p-4 lg:p-8 order-2 lg:order-1 lg:overflow-visible overflow-x-hidden">
@@ -198,8 +200,16 @@ const Step3Courses: React.FC = () => {
       </div>
 
       {/* Sidebar (Right) */}
-      <div className="w-full lg:w-84 bg-white border-l border-gray-200 p-6 flex-shrink-0 lg:sticky lg:top-0 lg:h-screen lg:overflow-y-auto order-1 lg:order-2 shadow-xl z-20 custom-scrollbar">
-        <div className="lg:min-h-min">
+      <div className={`w-full lg:w-84 bg-white border-l border-gray-200 p-6 flex-shrink-0 lg:sticky lg:top-0 lg:h-screen lg:overflow-y-auto order-1 lg:order-2 shadow-xl z-20 custom-scrollbar ${showMobileSummary ? 'fixed inset-0 z-50 overflow-y-auto' : 'hidden lg:block'}`}>
+        <div className="lg:min-h-min relative">
+            {/* Mobile close button */}
+            <button
+                onClick={() => setShowMobileSummary(false)}
+                className="lg:hidden absolute top-0 right-0 p-2 text-gray-500 hover:bg-gray-100 rounded-full z-50"
+            >
+                <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
+            </button>
+
             <button
               onClick={() => setStep(2)}
               className="text-gray-500 hover:text-blue-600 flex items-center gap-2 text-sm font-bold mb-8 transition-colors group"
@@ -309,7 +319,7 @@ const Step3Courses: React.FC = () => {
               </div>
             )}
 
-            <div className="pt-4 border-t border-gray-100 sticky bottom-0 bg-white pb-6">
+            <div className="pt-4 border-t border-gray-100 sticky bottom-0 bg-white pb-6 lg:pb-0">
                <button
                  disabled={!isComplete}
                  className={`w-full py-4 rounded-xl font-bold text-white shadow-xl transition-all transform flex items-center justify-center gap-2
@@ -324,6 +334,23 @@ const Step3Courses: React.FC = () => {
                </button>
             </div>
         </div>
+      </div>
+
+      {/* Mobile Sticky Action Bar */}
+      <div className="lg:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 p-4 shadow-[0_-8px_30px_rgb(0,0,0,0.12)] z-40 flex items-center justify-between">
+          <div className="flex flex-col">
+              <span className="text-[10px] uppercase font-bold text-gray-500 tracking-wider">Συνολο</span>
+              <div className="flex items-baseline gap-1">
+                  <span className={`text-2xl font-black ${selectedCourseIds.length > 23 ? 'text-red-500' : selectedCourseIds.length === 23 ? 'text-green-500' : 'text-gray-900'}`}>{selectedCourseIds.length}</span>
+                  <span className="text-sm font-medium text-gray-400">/ 23</span>
+              </div>
+          </div>
+          <button
+              onClick={() => setShowMobileSummary(true)}
+              className="px-6 py-3 bg-blue-50 text-blue-700 font-bold text-sm rounded-xl border border-blue-200 hover:bg-blue-100 transition-colors"
+          >
+              Προβολή Σύνοψης
+          </button>
       </div>
 
     </div>
