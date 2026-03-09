@@ -42,9 +42,9 @@ const CourseCard: React.FC<CourseCardProps> = memo(({ course, isSelected, onTogg
 
   // Ensure passed className (for warning rings) takes precedence or merges well
   const containerClasses = `
-    relative rounded-2xl shadow-sm border-2 transition-all duration-300 h-full flex flex-col group cursor-pointer
+    relative rounded-2xl shadow-sm border-2 transition-all duration-300 flex flex-col group cursor-pointer
     ${isSelected
-      ? 'border-green-500 bg-green-50/30 ring-4 ring-green-500/10 shadow-green-100/50 scale-[1.02]'
+      ? 'border-green-500 bg-green-50/30 ring-4 ring-green-500/10 shadow-green-100/50 scale-[1.01]'
       : 'border-gray-100 bg-white hover:border-blue-300 hover:shadow-md hover:bg-gray-50/50'
     }
     ${isDisabled ? 'opacity-60 bg-gray-50 grayscale-[0.5] cursor-not-allowed hover:border-gray-200 hover:scale-100 hover:shadow-none' : ''}
@@ -68,44 +68,33 @@ const CourseCard: React.FC<CourseCardProps> = memo(({ course, isSelected, onTogg
           </div>
         )}
 
-        <div className="p-5 flex-grow flex flex-col relative">
+        <div className="p-4 sm:p-5 flex-grow flex flex-col sm:flex-row items-start sm:items-center justify-between w-full relative gap-4">
 
-          <div className="flex justify-between items-start mb-3 gap-3">
-            <h3 className={`font-bold text-base md:text-lg leading-snug line-clamp-2 ${isSelected ? 'text-green-900' : 'text-gray-800 group-hover:text-blue-800'}`}>
+          {/* Left Side: Title and Tags */}
+          <div className="flex flex-col gap-2 flex-1 w-full">
+            <h3 className={`font-bold text-base md:text-lg leading-snug pr-8 sm:pr-0 ${isSelected ? 'text-green-900' : 'text-gray-800 group-hover:text-blue-800'}`}>
               {course.title}
             </h3>
 
-            <button
-              onClick={(e) => {
-                e.stopPropagation();
-                setShowModal(true);
-              }}
-              className="p-1.5 text-gray-400 hover:text-blue-600 hover:bg-blue-50 rounded-full transition-colors shrink-0 z-10"
-              title="Λεπτομέρειες"
-            >
-              <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
-            </button>
+            <div className="flex flex-wrap items-center gap-2">
+               <span className={`text-[10px] font-bold px-2.5 py-0.5 rounded-full whitespace-nowrap border ${badgeColor}`}>
+                  {flowDisplayName}
+               </span>
+               <span className="font-mono text-[10px] text-gray-400 bg-gray-100 px-1.5 py-0.5 rounded">
+                  #{course.id}
+               </span>
+               {course.is_flow_compulsory && (
+                  <span className="text-[9px] font-bold text-amber-700 bg-amber-50 px-1.5 py-0.5 rounded border border-amber-200">
+                    Υποχρεωτικό Ροής
+                  </span>
+               )}
+            </div>
           </div>
 
-          <div className="flex items-center gap-2 mb-4">
-             <span className={`text-[10px] font-bold px-2.5 py-0.5 rounded-full whitespace-nowrap border ${badgeColor}`}>
-                {flowDisplayName}
-             </span>
-             <span className="font-mono text-[10px] text-gray-400 bg-gray-100 px-1.5 py-0.5 rounded">
-                #{course.id}
-             </span>
-             {course.is_flow_compulsory && (
-                <span className="text-[9px] font-bold text-amber-700 bg-amber-50 px-1.5 py-0.5 rounded border border-amber-200">
-                  Υποχρεωτικό Ροής
-                </span>
-             )}
-          </div>
-
-          <div className="mt-auto flex items-end justify-between pt-3 border-t border-gray-100/60">
+          {/* Right Side: Semester, ECTS, Info Button */}
+          <div className="flex items-center gap-4 sm:gap-6 shrink-0 w-full sm:w-auto justify-between sm:justify-end mt-2 sm:mt-0 pt-3 sm:pt-0 border-t sm:border-t-0 border-gray-100/60">
              <div className="flex items-center gap-3">
-                <div className="flex flex-col">
+                <div className="flex flex-col items-start sm:items-end">
                   <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Εξάμηνο</span>
                   <span className="text-sm font-black text-gray-700">{course.semester}</span>
                 </div>
@@ -116,6 +105,19 @@ const CourseCard: React.FC<CourseCardProps> = memo(({ course, isSelected, onTogg
                     </span>
                 </div>
              </div>
+
+             <button
+               onClick={(e) => {
+                 e.stopPropagation();
+                 setShowModal(true);
+               }}
+               className="p-1.5 text-gray-400 hover:text-blue-600 hover:bg-blue-50 rounded-full transition-colors shrink-0 z-10"
+               title="Λεπτομέρειες"
+             >
+               <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+               </svg>
+             </button>
           </div>
 
           {/* Tooltip for Disabled State overlaying the card */}

@@ -223,27 +223,27 @@ const Step3Courses: React.FC = () => {
             <h3 className="text-xl font-black text-gray-800 mb-6 pb-2 border-b border-gray-100">Σύνοψη</h3>
 
             {/* Real-Time Progress Bar Section */}
-            <div className="mb-6 p-6 bg-slate-900 rounded-2xl text-white shadow-lg relative overflow-hidden group">
-                <div className="absolute top-0 right-0 w-24 h-24 bg-white/5 rounded-bl-full -mr-8 -mt-8 transition-transform group-hover:scale-110"></div>
+            <div className="mb-6 p-6 bg-pink-100 border-2 border-pink-200 rounded-2xl shadow-md relative overflow-hidden group">
+                <div className="absolute top-0 right-0 w-24 h-24 bg-white/30 rounded-bl-full -mr-8 -mt-8 transition-transform group-hover:scale-110"></div>
                 <div className="relative z-10">
                     <div className="flex justify-between items-end mb-2">
-                        <div className="text-[10px] font-bold uppercase tracking-widest text-slate-400">Συνολο Μαθηματων</div>
-                        <div className="text-[10px] font-bold text-slate-400">{Math.round((selectedCourseIds.length / 23) * 100)}%</div>
+                        <div className="text-[10px] font-bold uppercase tracking-widest text-pink-700">Συνολο Μαθηματων</div>
+                        <div className="text-[10px] font-bold text-pink-700">{Math.round((selectedCourseIds.length / 23) * 100)}%</div>
                     </div>
 
                     {/* Visual Progress Bar */}
-                    <div className="w-full bg-slate-700 rounded-full h-2.5 mb-4 overflow-hidden">
-                      <div className={`h-2.5 rounded-full transition-all duration-500 ${selectedCourseIds.length > 23 ? 'bg-red-500' : selectedCourseIds.length === 23 ? 'bg-emerald-500' : 'bg-blue-500'}`} style={{ width: `${Math.min((selectedCourseIds.length / 23) * 100, 100)}%` }}></div>
+                    <div className="w-full bg-pink-200/60 rounded-full h-2.5 mb-4 overflow-hidden">
+                      <div className={`h-2.5 rounded-full transition-all duration-500 ${selectedCourseIds.length > 23 ? 'bg-red-500' : selectedCourseIds.length === 23 ? 'bg-emerald-500' : 'bg-pink-500'}`} style={{ width: `${Math.min((selectedCourseIds.length / 23) * 100, 100)}%` }}></div>
                     </div>
 
                     <div className="flex items-baseline gap-2">
-                        <span className={`text-5xl font-black tracking-tight transition-colors ${selectedCourseIds.length > 23 ? 'text-red-400' : selectedCourseIds.length === 23 ? 'text-emerald-400' : 'text-white'}`}>
+                        <span className={`text-5xl font-black tracking-tight transition-colors ${selectedCourseIds.length > 23 ? 'text-red-500' : selectedCourseIds.length === 23 ? 'text-emerald-500' : 'text-pink-900'}`}>
                             {selectedCourseIds.length}
                         </span>
-                        <span className="text-xl text-slate-500 font-medium">/ 23</span>
+                        <span className="text-xl text-pink-700/80 font-medium">/ 23</span>
                     </div>
                     {selectedCourseIds.length > 23 && (
-                        <div className="text-xs font-bold text-red-400 mt-3 flex items-center gap-1.5 bg-red-900/30 p-2 rounded-lg border border-red-500/30 animate-in fade-in zoom-in duration-300">
+                        <div className="text-xs font-bold text-red-700 mt-3 flex items-center gap-1.5 bg-red-100 p-2 rounded-lg border border-red-200 animate-in fade-in zoom-in duration-300">
                             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
                             Υπέρβαση ορίου μαθημάτων!
                         </div>

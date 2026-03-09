@@ -46,7 +46,7 @@ const SemesterSection: React.FC<SemesterSectionProps> = memo(({
     const isOpen = (sec: string) => !!expandedSections[`${semester}-${sec}`];
 
     const renderCourseGrid = (courses: Course[]) => (
-        <div className="p-4 bg-white grid grid-cols-1 md:grid-cols-2 gap-4 animate-in slide-in-from-top-2 duration-300">
+        <div className="p-4 bg-white flex flex-col space-y-3 animate-in slide-in-from-top-2 duration-300">
             {courses.map(c => {
                 const id = String(c.id);
                 const isSelected = selectedCourseIds.includes(id);
