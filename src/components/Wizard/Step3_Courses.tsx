@@ -24,10 +24,10 @@ const Step3Courses: React.FC = () => {
 
   // Manage Expanded State at Top Level
   const [expandedSections, setExpandedSections] = useState<Record<string, boolean>>({
-      '6-comp': true, '6-flow': false, '6-free': false,
-      '7-comp': true, '7-flow': false, '7-free': false,
-      '8-comp': true, '8-flow': false, '8-free': false,
-      '9-comp': true, '9-flow': false, '9-free': false,
+      '6-comp': true, '6-flow': true, '6-free': false,
+      '7-comp': true, '7-flow': true, '7-free': false,
+      '8-comp': true, '8-flow': true, '8-free': false,
+      '9-comp': true, '9-flow': true, '9-free': false,
   });
 
   const [showMobileSummary, setShowMobileSummary] = useState(false);
