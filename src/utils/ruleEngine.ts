@@ -47,8 +47,15 @@ export const calculateDetailedStats = (
     const flowStats: DetailedStats['flowStats'] = {};
 
     // --- 0. Total Courses Check ---
-    if (totalSelectedCount !== 23) {
-         warnings.push(`Απαιτούνται ακριβώς 23 μαθήματα για τη λήψη διπλώματος (Έχετε επιλέξει: ${totalSelectedCount}).`);
+    if (totalSelectedCount !== 25) {
+         warnings.push(`Απαιτούνται ακριβώς 25 μαθήματα για τη λήψη διπλώματος (Έχετε επιλέξει: ${totalSelectedCount}).`);
+    }
+
+    // --- 0b. Course Pool Check: Must pick 1 of {3068, 3450} ---
+    const hasThevrikaDiktia = selectedIds.has('3068');
+    const hasMihanikhMathish = selectedIds.has('3450');
+    if (!hasThevrikaDiktia && !hasMihanikhMathish) {
+        warnings.push('Υποχρεωτική Επιλογή: Πρέπει να επιλέξετε ένα από τα μαθήματα: «Θεωρία Δικτύων και Κυκλωμάτων» ή «Μηχανική Μάθηση».');
     }
 
     // --- 1. Identify Active Flows ---
@@ -118,14 +125,10 @@ export const calculateDetailedStats = (
             isComplete = false;
         }
 
-        // Check Total Count (Strict Equality)
-        if (totalCount !== reqTotal) {
+        // Check Total Count (Only warn if LESS than required, no warning for MORE since they become free electives)
+        if (totalCount < reqTotal) {
              const typeStr = isFull ? 'Ολόκληρη' : 'Μισή';
-             if (totalCount < reqTotal) {
-                 warnings.push(`Ροή ${flowCode} (${typeStr}): Απαιτούνται ακριβώς ${reqTotal} μαθήματα (Επιλέξατε: ${totalCount}).`);
-             } else {
-                 warnings.push(`Ροή ${flowCode} (${typeStr}): Έχετε επιλέξει ${totalCount} μαθήματα. Το όριο είναι ${reqTotal}. Τα επιπλέον δεν προσμετρώνται ως ελεύθερα.`);
-             }
+             warnings.push(`Ροή ${flowCode} (${typeStr}): Απαιτούνται τουλάχιστον ${reqTotal} μαθήματα (Επιλέξατε: ${totalCount}).`);
              isComplete = false;
         }
 
@@ -153,9 +156,11 @@ export const calculateDetailedStats = (
 
     // --- 3. Global Limits ---
 
-    // Free Electives: Courses NOT in active flows (plus M and F always)
-    // "Max 5 free courses (courses outside the declared flows)"
     const freeElectives = selectedCourses.filter(c => {
+        if (c.flow_code === 'P') return false; // Κορμός courses are never free electives
+        if (c.flow_code === HUMANITIES || c.type === 'humanities') return false; // Tracked separately
+        if (c.flow_code === NON_FLOW) return false; // Tracked separately
+        
         const isFreeFlow = FREE_FLOWS.includes(c.flow_code);
         const isNonActiveFlow = !activeFlows.includes(c.flow_code);
         return isFreeFlow || isNonActiveFlow;

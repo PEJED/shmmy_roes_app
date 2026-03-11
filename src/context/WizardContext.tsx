@@ -1,12 +1,25 @@
-import React, { createContext, useContext, useState, useMemo, useEffect } from 'react';
+import React, { createContext, useContext, useState, useMemo, useEffect, useCallback } from 'react';
 import { validateDirectionSelection, type FlowSelection, type Direction } from '../utils/flowValidation';
-import { courses } from '../data/courses';
+import { FLOW_RULES } from '../data/flowRules';
+
+// ─── Types ───────────────────────────────────────────────────────────────────
+
+export interface SavedProfile {
+  id: string;
+  name: string;
+  createdAt: string; // ISO date
+  direction: Direction | null;
+  selectedCombinationId: string | null;
+  flowSelections: Record<string, FlowSelection>;
+  selectedCourseIds: string[];
+  step: number;
+}
 
 interface WizardState {
   step: number;
   direction: Direction | null;
   selectedCombinationId: string | null;
-  flowSelections: Record<string, FlowSelection>; // e.g. { 'Y': 'full', 'L': 'half' }
+  flowSelections: Record<string, FlowSelection>;
   selectedCourseIds: string[];
 }
 
@@ -19,48 +32,97 @@ interface WizardContextType extends WizardState {
   toggleCourse: (courseId: string) => void;
   validation: { isValid: boolean; error: string | null };
   lockedCourseIds: string[];
+  // Profile management
+  savedProfiles: SavedProfile[];
+  saveProfile: (name: string) => void;
+  loadProfile: (id: string) => void;
+  deleteProfile: (id: string) => void;
 }
+
+// ─── localStorage keys ────────────────────────────────────────────────────────
+
+const CURRENT_STATE_KEY = 'simmy_current_state';
+const PROFILES_KEY = 'simmy_profiles';
+
+function loadCurrentState(): WizardState | null {
+  try {
+    const raw = localStorage.getItem(CURRENT_STATE_KEY);
+    if (!raw) return null;
+    return JSON.parse(raw) as WizardState;
+  } catch {
+    return null;
+  }
+}
+
+function loadProfiles(): SavedProfile[] {
+  try {
+    const raw = localStorage.getItem(PROFILES_KEY);
+    if (!raw) return [];
+    return JSON.parse(raw) as SavedProfile[];
+  } catch {
+    return [];
+  }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
 
 const WizardContext = createContext<WizardContextType | undefined>(undefined);
 
 export const WizardProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [step, setStep] = useState(1);
-  const [direction, setDirection] = useState<Direction | null>(null);
-  const [selectedCombinationId, setSelectedCombinationId] = useState<string | null>(null);
-  const [flowSelections, setFlowSelections] = useState<Record<string, FlowSelection>>({});
-  const [selectedCourseIds, setSelectedCourseIds] = useState<string[]>([]);
+  // Initialise from localStorage if available
+  const persisted = loadCurrentState();
 
+  const [step, setStepState] = useState(persisted?.step ?? 1);
+  const [direction, setDirectionState] = useState<Direction | null>(persisted?.direction ?? null);
+  const [selectedCombinationId, setSelectedCombinationIdState] = useState<string | null>(
+    persisted?.selectedCombinationId ?? null
+  );
+  const [flowSelections, setFlowSelectionsState] = useState<Record<string, FlowSelection>>(
+    persisted?.flowSelections ?? {}
+  );
+  const [selectedCourseIds, setSelectedCourseIds] = useState<string[]>(
+    persisted?.selectedCourseIds ?? []
+  );
+
+  const [savedProfiles, setSavedProfiles] = useState<SavedProfile[]>(loadProfiles);
+
+  // ── Auto-persist current state on every change ──────────────────────────────
+  useEffect(() => {
+    const state: WizardState = { step, direction, selectedCombinationId, flowSelections, selectedCourseIds };
+    try {
+      localStorage.setItem(CURRENT_STATE_KEY, JSON.stringify(state));
+    } catch { /* storage full / private browsing */ }
+  }, [step, direction, selectedCombinationId, flowSelections, selectedCourseIds]);
+
+  // ── Persist profiles list ──────────────────────────────────────────────────
+  useEffect(() => {
+    try {
+      localStorage.setItem(PROFILES_KEY, JSON.stringify(savedProfiles));
+    } catch { /* ignore */ }
+  }, [savedProfiles]);
+
+  // ── Setters (wrapped so we can keep the same API) ──────────────────────────
+  const setStep = useCallback((s: number) => setStepState(s), []);
+  const setDirection = useCallback((d: Direction | null) => setDirectionState(d), []);
+  const setSelectedCombinationId = useCallback((id: string | null) => setSelectedCombinationIdState(id), []);
+
+  // ── Validation ─────────────────────────────────────────────────────────────
   const validation = useMemo(() => {
     if (!direction) return { isValid: false, error: 'Επιλέξτε Κατεύθυνση' };
     return validateDirectionSelection(direction, flowSelections);
   }, [direction, flowSelections]);
 
-  // Keep simple locking based on is_flow_compulsory for now?
-  // User asked for complex rules. We will handle visual categorization in UI.
-  // We can still auto-select "core" compulsory if we want, or leave it to user.
-  // The user requirement "Mandatory courses... Must be pre-selected, disabled" was from Step 1 of this task.
-  // The current request says "split into 3 categories... compulsory...".
-  // It implies we should still treat them as locked/pre-selected?
-  // Yes, probably. But "3 of 5" makes pre-selection ambiguous.
-  // "4 of 5" -> which 4?
-  // So locking is only possible for strict "100% required" courses.
-  // I will keep the *concept* of locking but update the logic later if needed.
-  // For now, I'll rely on the simple 'is_flow_compulsory' for the initial lock,
-  // or maybe I should disable locking until the new rules are in place?
-  // Let's keep it simple here and refine in Step3_Courses.
-
+  // ── Locked (compulsory) courses ────────────────────────────────────────────
   const lockedCourseIds = useMemo(() => {
-    const ids: string[] = [];
+    const ids: string[] = ['3035'];
     Object.entries(flowSelections).forEach(([flowCode, selection]) => {
-      if (selection === 'full') {
-        const compulsoryCourses = courses.filter(
-          c => c.flow_code === flowCode && c.is_flow_compulsory
-        );
-        compulsoryCourses.forEach(c => ids.push(c.id.toString()));
-      }
+      if (selection === 'none') return;
+      let rule = FLOW_RULES[flowCode]?.[selection];
+      if (typeof rule === 'function') rule = rule(direction);
+      if (rule && rule.compulsory) rule.compulsory.forEach(id => ids.push(id));
     });
     return ids;
-  }, [flowSelections]);
+  }, [flowSelections, direction]);
 
   useEffect(() => {
     if (lockedCourseIds.length > 0) {
@@ -72,28 +134,53 @@ export const WizardProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     }
   }, [lockedCourseIds]);
 
-  const setFlowSelectionHandler = (flowCode: string, selection: FlowSelection) => {
-    setFlowSelections(prev => ({
-      ...prev,
-      [flowCode]: selection
-    }));
-  };
+  // ── Flow selection handlers ────────────────────────────────────────────────
+  const setFlowSelection = useCallback((flowCode: string, selection: FlowSelection) => {
+    setFlowSelectionsState(prev => ({ ...prev, [flowCode]: selection }));
+  }, []);
 
-  const resetFlowSelections = () => {
-    setFlowSelections({});
-  };
+  const resetFlowSelections = useCallback(() => {
+    setFlowSelectionsState({});
+  }, []);
 
-  const toggleCourse = (courseId: string) => {
+  const toggleCourse = useCallback((courseId: string) => {
     if (lockedCourseIds.includes(courseId)) return;
-
     setSelectedCourseIds(prev =>
-      prev.includes(courseId)
-        ? prev.filter(id => id !== courseId)
-        : [...prev, courseId]
+      prev.includes(courseId) ? prev.filter(id => id !== courseId) : [...prev, courseId]
     );
-  };
+  }, [lockedCourseIds]);
 
-  const value = {
+  // ── Profile CRUD ───────────────────────────────────────────────────────────
+  const saveProfile = useCallback((name: string) => {
+    const profile: SavedProfile = {
+      id: `${Date.now()}-${Math.random().toString(36).slice(2, 7)}`,
+      name,
+      createdAt: new Date().toISOString(),
+      direction,
+      selectedCombinationId,
+      flowSelections,
+      selectedCourseIds,
+      step,
+    };
+    setSavedProfiles(prev => [profile, ...prev]);
+  }, [direction, selectedCombinationId, flowSelections, selectedCourseIds, step]);
+
+  const loadProfile = useCallback((id: string) => {
+    const profile = savedProfiles.find(p => p.id === id);
+    if (!profile) return;
+    setDirectionState(profile.direction);
+    setSelectedCombinationIdState(profile.selectedCombinationId);
+    setFlowSelectionsState(profile.flowSelections);
+    setSelectedCourseIds(profile.selectedCourseIds);
+    setStepState(profile.step ?? (profile.selectedCombinationId ? 3 : profile.direction ? 2 : 1));
+  }, [savedProfiles]);
+
+  const deleteProfile = useCallback((id: string) => {
+    setSavedProfiles(prev => prev.filter(p => p.id !== id));
+  }, []);
+
+  // ─────────────────────────────────────────────────────────────────────────
+  const value: WizardContextType = {
     step,
     direction,
     selectedCombinationId,
@@ -102,11 +189,15 @@ export const WizardProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     setStep,
     setDirection,
     setSelectedCombinationId,
-    setFlowSelection: setFlowSelectionHandler,
+    setFlowSelection,
     resetFlowSelections,
     toggleCourse,
     validation,
-    lockedCourseIds
+    lockedCourseIds,
+    savedProfiles,
+    saveProfile,
+    loadProfile,
+    deleteProfile,
   };
 
   return (
@@ -118,8 +209,6 @@ export const WizardProvider: React.FC<{ children: React.ReactNode }> = ({ childr
 
 export const useWizard = () => {
   const context = useContext(WizardContext);
-  if (!context) {
-    throw new Error('useWizard must be used within a WizardProvider');
-  }
+  if (!context) throw new Error('useWizard must be used within a WizardProvider');
   return context;
 };

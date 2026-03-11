@@ -37,8 +37,8 @@ const Step1Direction: React.FC = () => {
   return (
     <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
       <div className="text-center max-w-2xl mx-auto mb-8">
-        <h2 className="text-3xl font-bold text-gray-800 mb-2">Επιλογή Κατεύθυνσης</h2>
-        <p className="text-gray-600 text-lg">
+        <h2 className="text-3xl font-bold text-gray-800 dark:text-gray-100 mb-2">Επιλογή Κατεύθυνσης</h2>
+        <p className="text-gray-600 dark:text-gray-400 text-lg">
           Επιλέξτε την κατεύθυνση που σας ενδιαφέρει.
         </p>
       </div>
@@ -53,8 +53,8 @@ const Step1Direction: React.FC = () => {
               onClick={() => handleSelect(key as Direction)}
               className={`group relative p-8 min-h-48 rounded-3xl text-left transition-all duration-300 transform hover:-translate-y-1 hover:scale-[1.02] hover:shadow-xl h-full flex flex-col justify-between overflow-hidden
                 ${isSelected
-                  ? 'bg-gradient-to-br from-blue-50 to-white border-2 border-blue-500 shadow-lg ring-4 ring-blue-500/10'
-                  : 'bg-white border-2 border-gray-100 shadow-sm hover:border-blue-300'
+                  ? 'bg-gradient-to-br from-blue-50 to-white dark:from-blue-900/30 dark:to-gray-800 border-2 border-blue-500 shadow-lg ring-4 ring-blue-500/10 dark:ring-blue-900/30'
+                  : 'bg-white dark:bg-gray-800 border-2 border-gray-100 dark:border-gray-700 shadow-sm hover:border-blue-300 dark:hover:border-blue-500'
                 }
               `}
             >
@@ -65,22 +65,22 @@ const Step1Direction: React.FC = () => {
               )}
 
               <div className="flex flex-col sm:flex-row items-start gap-6 h-full relative z-10">
-                 <div className={`transition-transform duration-300 group-hover:scale-110 flex-shrink-0 mt-1 bg-gray-50 p-4 rounded-2xl group-hover:bg-blue-50`}>
+                 <div className={`transition-transform duration-300 group-hover:scale-110 flex-shrink-0 mt-1 bg-gray-50 dark:bg-gray-900/50 p-4 rounded-2xl group-hover:bg-blue-50 dark:group-hover:bg-blue-900/30`}>
                    {Icons[key as Direction]}
                  </div>
 
                  <div className="flex-1 flex flex-col h-full">
-                    <h3 className={`text-2xl font-black tracking-tight mb-3 ${isSelected ? 'text-blue-700' : 'text-gray-900 group-hover:text-blue-700 transition-colors'}`}>
+                    <h3 className={`text-2xl font-black tracking-tight mb-3 ${isSelected ? 'text-blue-700 dark:text-blue-400' : 'text-gray-900 dark:text-gray-100 group-hover:text-blue-700 dark:group-hover:text-blue-400 transition-colors'}`}>
                       {info.name}
                     </h3>
-                    <p className="text-base text-gray-600 leading-relaxed font-medium">
+                    <p className="text-base text-gray-600 dark:text-gray-400 leading-relaxed font-medium">
                       {info.description}
                     </p>
                  </div>
               </div>
 
               {/* Optional background decoration */}
-              <div className={`absolute -bottom-8 -right-8 w-32 h-32 rounded-full blur-3xl transition-opacity duration-500 ${isSelected ? 'bg-blue-400/20 opacity-100' : 'bg-gray-200/50 opacity-0 group-hover:opacity-100 group-hover:bg-blue-200/30'}`}></div>
+              <div className={`absolute -bottom-8 -right-8 w-32 h-32 rounded-full blur-3xl transition-opacity duration-500 ${isSelected ? 'bg-blue-400/20 opacity-100' : 'bg-gray-200/50 dark:bg-gray-700/50 opacity-0 group-hover:opacity-100 group-hover:bg-blue-200/30 dark:group-hover:bg-blue-900/20'}`}></div>
             </button>
           );
         })}
@@ -92,8 +92,8 @@ const Step1Direction: React.FC = () => {
           onClick={() => setStep(2)}
           className={`px-12 py-4 rounded-2xl font-bold text-lg text-white shadow-xl transition-all flex items-center gap-3 transform active:scale-95 ${
             direction
-              ? 'bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 hover:-translate-y-1 shadow-blue-200/50 ring-4 ring-blue-500/20'
-              : 'bg-gray-300 cursor-not-allowed shadow-none opacity-80'
+              ? 'bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 hover:-translate-y-1 shadow-blue-200/50 dark:shadow-blue-900/20 ring-4 ring-blue-500/20 dark:ring-blue-900/30'
+              : 'bg-gray-300 dark:bg-gray-800 text-gray-500 dark:text-gray-600 cursor-not-allowed shadow-none opacity-80'
           }`}
         >
           Συνέχεια
