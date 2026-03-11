@@ -122,10 +122,10 @@ const SemesterSection: React.FC<SemesterSectionProps> = memo(({
 
                 if (activeRule) {
                     // Priority 1: Active Warning (Red/Orange/etc)
-                    const colorClass = ruleColors[activeRule.ruleId] || 'border-orange-300 dark:border-orange-800 bg-orange-50 dark:bg-orange-900/30 text-orange-900 dark:text-orange-300';
+                    const colorClass = ruleColors[activeRule.ruleId] || 'border-amber-400 dark:border-amber-500/40 bg-amber-50 dark:bg-amber-500/10 text-amber-900 dark:text-amber-300';
                     const allClasses = colorClass.split(' ');
-                    const borderClasses = allClasses.filter(cls => (cls.startsWith('border-') || cls.startsWith('dark:border-')) && !cls.includes('border-l') && !cls.includes('border-y') && !cls.includes('border-r')).join(' ') || 'border-orange-300 dark:border-orange-800';
-                    const bgClasses = allClasses.filter(cls => cls.startsWith('bg-') || cls.startsWith('dark:bg-')).join(' ') || 'bg-orange-50 dark:bg-orange-900/30';
+                    const borderClasses = allClasses.filter(cls => (cls.startsWith('border-') || cls.startsWith('dark:border-')) && !cls.includes('border-l') && !cls.includes('border-y') && !cls.includes('border-r')).join(' ') || 'border-amber-400 dark:border-amber-500/40';
+                    const bgClasses = allClasses.filter(cls => cls.startsWith('bg-') || cls.startsWith('dark:bg-')).join(' ') || 'bg-amber-50 dark:bg-amber-500/10';
                     // Rely on CourseCard's className propagation
                     extraClass = `${borderClasses} ${bgClasses} scale-[1.01] border-2 shadow-[0_4px_10px_-4px_rgba(251,146,60,0.2)]`;
                 } else if (isSelected && c.flow_code && satisfiedFlows.has(c.flow_code)) {
@@ -138,11 +138,11 @@ const SemesterSection: React.FC<SemesterSectionProps> = memo(({
                     tooltip = "Κλειδωμένο από επιλογή ροής (υποχρεωτικό άλλης κατεύθυνσης/ροής)";
                 } else if (xorDisabled) {
                     disabled = true;
-                    tooltip = "Έχετε ήδη επιλέξει το εναλλακτικό μάθημα";
+                    tooltip = "Εχετε ήδη επιλέξει το εναλλακτικό μάθημα";
                 } else if (!isSelected) {
                     if (isHardLimit) {
                         disabled = true;
-                        tooltip = "Όριο 12 μαθημάτων/εξάμηνο";
+                        tooltip = "Οριο 12 μαθημάτων/εξάμηνο";
                     } else if (blockingRule) {
                         disabled = true;
                         tooltip = `Κανόνας ολοκληρώθηκε: ${blockingRule.description}`;
@@ -179,21 +179,21 @@ const SemesterSection: React.FC<SemesterSectionProps> = memo(({
                     <h3 className="text-xl font-black text-gray-800 dark:text-gray-100 tracking-tight">Εξάμηνο</h3>
                 </div>
                 <div className="flex items-center gap-3">
-                    {/* Show Red Warning if >12, Orange if >7 */}
+                    {/* Show Rose Warning if >12, Fuchsia if >7 */}
                     {data.totalSelected > 12 ? (
-                        <span className="flex text-[10px] font-bold text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-900/30 px-2.5 py-1 rounded-full border border-red-100 dark:border-red-900/50 items-center gap-1.5 uppercase tracking-wide">
+                        <span className="flex text-[10px] font-bold text-rose-600 dark:text-rose-300 bg-rose-50 dark:bg-rose-500/10 px-2.5 py-1 rounded-full border border-rose-100 dark:border-rose-500/30 items-center gap-1.5 uppercase tracking-wide">
                             <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
                             &gt;12 Μαθηματα
                         </span>
                     ) : data.totalSelected > 7 && (
-                        <span className="flex text-[10px] font-bold text-orange-600 dark:text-orange-400 bg-orange-50 dark:bg-orange-900/30 px-2.5 py-1 rounded-full border border-orange-100 dark:border-orange-900/50 items-center gap-1.5 uppercase tracking-wide">
+                        <span className="flex text-[10px] font-bold text-fuchsia-600 dark:text-fuchsia-300 bg-fuchsia-50 dark:bg-fuchsia-500/10 px-2.5 py-1 rounded-full border border-fuchsia-100 dark:border-fuchsia-500/30 items-center gap-1.5 uppercase tracking-wide">
                             <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
                             &gt;7 Μαθηματα
                         </span>
                     )}
                     <div className="flex flex-col items-end px-3 py-1">
                         <span className="text-xs font-bold uppercase tracking-wider text-gray-400 dark:text-gray-500">Αριθμος Μαθηματων</span>
-                        <span className={`text-lg font-black leading-none ${data.totalSelected > 12 ? 'text-red-600 dark:text-red-400' : 'text-gray-800 dark:text-gray-100'}`}>
+                        <span className={`text-lg font-black leading-none ${data.totalSelected > 12 ? 'text-rose-600 dark:text-rose-400' : 'text-gray-800 dark:text-gray-100'}`}>
                            {data.totalSelected}
                         </span>
                     </div>
@@ -204,68 +204,44 @@ const SemesterSection: React.FC<SemesterSectionProps> = memo(({
                 {/* Rule Banners */}
                 {!hideWarnings && semRules.filter(r => r.type !== 'compulsory').length > 0 && (
                     <div className="p-4 space-y-3">
-                         {Object.entries(semRules.filter(r => r.type !== 'compulsory').reduce((acc, rule) => {
-                             if (!rule.flowCode) return acc;
-                             if (!acc[rule.flowCode]) acc[rule.flowCode] = [];
-                             acc[rule.flowCode].push(rule);
-                             return acc;
-                         }, {} as Record<string, RuleStatus[]>)).map(([flowCode, rules]) => {
-                            const greekFlow = FLOW_NAMES[flowCode]?.replace(/Flow |Ροή /g, '') || flowCode;
-                            const isAllMet = rules.every(r => r.isMet);
+                         {semRules.filter(r => r.type !== 'compulsory').map(rule => {
+                            const flowCode = rule.flowCode;
+                            const greekFlow = flowCode ? (FLOW_NAMES[flowCode]?.replace(/Flow |Ροή /g, '') || flowCode) : '';
+                            const flowLabel = flowCode ? (greekFlow === 'Κορμός' ? 'Κορμός' : `Ροή ${greekFlow}`) : '';
                             
-                            // Derive the outer banner color from the first unmet rule's palette
-                            const firstUnmetRule = rules.find(r => !r.isMet);
-                            const bannerColorClass = firstUnmetRule ? ruleColors[firstUnmetRule.ruleId] : null;
-                            const bannerBgClasses = bannerColorClass
-                                ? bannerColorClass.split(' ').filter(c => c.startsWith('bg-') || c.startsWith('dark:bg-')).join(' ')
-                                : 'bg-orange-50/50 dark:bg-orange-900/20';
-                            const bannerBorderClasses = bannerColorClass
-                                ? bannerColorClass.split(' ').filter(c => (c.startsWith('border-') || c.startsWith('dark:border-')) && !c.includes('border-l') && !c.includes('border-y') && !c.includes('border-r')).join(' ')
-                                : 'border-orange-300 dark:border-orange-800';
-                            const bannerTextClasses = bannerColorClass
-                                ? bannerColorClass.split(' ').filter(c => c.startsWith('text-') || c.startsWith('dark:text-')).join(' ')
-                                : 'text-orange-900 dark:text-orange-300';
+                            const rColorClass = ruleColors[rule.ruleId] || 'border-amber-400 dark:border-amber-500/40 bg-amber-50 dark:bg-amber-500/10 text-amber-900 dark:text-amber-300';
+                            const allClasses = rColorClass.split(' ');
+                            const rBorderClasses = allClasses.filter(cls => cls === 'border' || cls.includes('border-') && !cls.includes('border-l') && !cls.includes('border-y') && !cls.includes('border-r')).join(' ') || 'border-amber-400 dark:border-amber-500/40';
+                            const rBgClasses = allClasses.filter(cls => cls.startsWith('bg-') || cls.startsWith('dark:bg-')).join(' ') || 'bg-amber-50 dark:bg-amber-500/10';
+                            const rTextClasses = allClasses.filter(cls => cls.startsWith('text-') || cls.startsWith('dark:text-')).join(' ') || 'text-amber-900 dark:text-amber-300';
 
-                            const finalClass = isAllMet
-                                ? 'bg-emerald-50 dark:bg-emerald-900/20 border-emerald-500 text-emerald-900 dark:text-emerald-300'
-                                : `${bannerBgClasses} ${bannerBorderClasses} ${bannerTextClasses}`;
+                            const isMetClass = rule.isMet 
+                                ? 'bg-emerald-50 dark:bg-emerald-900/20 border-emerald-500 text-emerald-900 dark:text-emerald-300' 
+                                : `${rBgClasses} ${rBorderClasses} ${rTextClasses}`;
 
                             return (
-                                <div key={flowCode} className={`p-4 rounded-2xl border text-sm flex flex-col gap-3 shadow-sm transition-all duration-300 ${finalClass}`}>
-                                    <div className="flex items-center gap-2 border-b border-black/5 dark:border-white/10 pb-2">
-                                        <span className={`font-black tracking-wider uppercase flex items-center gap-2 opacity-90`}>
-                                            Ροή {greekFlow}
-                                            {isAllMet && <svg className="w-4 h-4 text-emerald-600 dark:text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" /></svg>}
-                                        </span>
-                                        {isAllMet && <span className="text-[10px] font-bold text-emerald-600 dark:text-emerald-400 ml-auto uppercase tracking-wide bg-emerald-100/50 dark:bg-emerald-900/40 px-2 py-0.5 rounded-full border border-emerald-200 dark:border-emerald-800">Ολοκληρώθηκε</span>}
-                                    </div>
-                                    <div className="flex flex-col gap-2.5">
-                                        {rules.map(rule => {
-                                            const rColorClass = ruleColors[rule.ruleId] || 'border-orange-300 dark:border-orange-800 bg-orange-50 dark:bg-orange-900/30 text-orange-900 dark:text-orange-300';
-                                            // Extract all classes for each category (incl. dark: variants)
-                                            const allClasses = rColorClass.split(' ');
-                                            const rBorderClasses = allClasses.filter(cls => cls === 'border' || cls.includes('border-') && !cls.includes('border-l') && !cls.includes('border-y') && !cls.includes('border-r')).join(' ') || 'border-orange-300 dark:border-orange-800';
-                                            const rBgClasses = allClasses.filter(cls => cls.startsWith('bg-') || cls.startsWith('dark:bg-')).join(' ') || 'bg-orange-50 dark:bg-orange-900/30';
-                                            const rTextClasses = allClasses.filter(cls => cls.startsWith('text-') || cls.startsWith('dark:text-')).join(' ') || 'text-orange-900 dark:text-orange-300';
-
-                                            return (
-                                              <div key={rule.ruleId} className={`flex flex-col sm:flex-row sm:justify-between sm:items-start gap-3 p-3.5 rounded-xl border-l-4 border-y border-r border-y-white/50 dark:border-y-gray-700 border-r-white/50 dark:border-r-gray-700 ${rule.isMet ? 'bg-white/60 dark:bg-gray-800 border-l-emerald-400 dark:border-l-emerald-500' : `${rBgClasses} ${rBorderClasses} ${rTextClasses} shadow-sm`}`}>
-                                                {renderRuleDescription(rule)}
-                                                
-                                                <div className="flex items-center gap-2 self-start sm:self-auto shrink-0 mt-2 sm:mt-0">
-                                                    {rule.isMet ? (
-                                                        <span className="text-[10px] font-bold bg-emerald-100 dark:bg-emerald-900/50 px-2.5 py-1 rounded-lg text-emerald-700 dark:text-emerald-400 flex items-center gap-1 shadow-sm whitespace-nowrap">
-                                                            <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" /></svg>
-                                                            OK
-                                                        </span>
-                                                    ) : (
-                                                        <span className="text-xs font-black bg-white/50 dark:bg-gray-800 px-3 py-1.5 rounded-lg flex items-center gap-1 shadow-sm whitespace-nowrap border border-black/5 dark:border-gray-700 opacity-90">
-                                                            {rule.currentCount} / {rule.targetCount}
-                                                        </span>
-                                                    )}
-                                                </div>
+                                <div key={rule.ruleId} className={`p-4 rounded-xl border flex flex-col sm:flex-row sm:justify-between sm:items-start gap-4 shadow-sm transition-all duration-300 ${isMetClass}`}>
+                                    <div className="flex flex-col gap-2 w-full">
+                                        {flowCode && (
+                                            <div className="flex items-center gap-2 pb-1 border-b border-black/5 dark:border-white/10 w-fit">
+                                                <span className={`font-black tracking-wider uppercase flex items-center gap-1.5 opacity-90 text-[11px]`}>
+                                                    {flowLabel.normalize("NFD").replace(/[\u0300-\u036f]/g, "")}
+                                                    {rule.isMet && <svg className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" /></svg>}
+                                                </span>
                                             </div>
-                                        )})}
+                                        )}
+                                        {renderRuleDescription(rule)}
+                                    </div>
+                                    <div className="flex items-center gap-2 self-start sm:self-auto shrink-0 mt-2 sm:mt-0">
+                                        {rule.isMet ? (
+                                            <span className="text-[10px] font-bold bg-emerald-100/50 dark:bg-emerald-900/40 px-2.5 py-1 rounded-lg text-emerald-700 dark:text-emerald-400 flex items-center gap-1 shadow-sm whitespace-nowrap uppercase tracking-wide border border-emerald-200 dark:border-emerald-800">
+                                                ΟΛΟΚΛΗΡΩΘΗΚΕ
+                                            </span>
+                                        ) : (
+                                            <span className="text-xs font-black bg-white/50 dark:bg-gray-800 px-3 py-1.5 rounded-lg flex items-center gap-1 shadow-sm whitespace-nowrap border border-black/5 dark:border-gray-700 opacity-90">
+                                                {rule.currentCount} / {rule.targetCount}
+                                            </span>
+                                        )}
                                     </div>
                                 </div>
                             );
@@ -281,7 +257,7 @@ const SemesterSection: React.FC<SemesterSectionProps> = memo(({
                                 <div className={`w-8 h-8 rounded-lg flex items-center justify-center transition-colors ${isOpen('comp') ? 'bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-400' : 'bg-gray-100 dark:bg-gray-800 text-gray-400 dark:text-gray-500 group-hover:bg-blue-50 dark:group-hover:bg-blue-900/40 group-hover:text-blue-500 dark:group-hover:text-blue-400'}`}>
                                    <span className="font-black text-xs">Υ</span>
                                 </div>
-                                <span className={`font-bold text-sm uppercase tracking-wide transition-colors ${isOpen('comp') ? 'text-blue-900 dark:text-blue-300' : 'text-gray-600 dark:text-gray-400 group-hover:text-blue-800 dark:group-hover:text-blue-400'}`}>Υποχρεωτικα</span>
+                                <span className={`font-bold text-sm uppercase tracking-wide transition-colors ${isOpen('comp') ? 'text-blue-900 dark:text-blue-300' : 'text-gray-600 dark:text-gray-400 group-hover:text-blue-800 dark:group-hover:text-blue-400'}`}>ΥΠΟΧΡΕΩΤΙΚΑ</span>
                             </div>
                             <div className="flex items-center gap-3">
                                 <span className="text-xs font-bold text-gray-400 dark:text-gray-500 bg-gray-100 dark:bg-gray-800 px-2.5 py-1 rounded-full">{data.compulsory.length}</span>
@@ -300,7 +276,7 @@ const SemesterSection: React.FC<SemesterSectionProps> = memo(({
                                    <span className="font-black text-xs">Ρ</span>
                                 </div>
                                 <div className="text-left">
-                                    <span className={`block font-bold text-sm uppercase tracking-wide transition-colors ${isOpen('flow') ? 'text-purple-900 dark:text-purple-300' : 'text-gray-600 dark:text-gray-400 group-hover:text-purple-800 dark:group-hover:text-purple-400'}`}>Κατ' επιλογην</span>
+                                    <span className={`block font-bold text-sm uppercase tracking-wide transition-colors ${isOpen('flow') ? 'text-purple-900 dark:text-purple-300' : 'text-gray-600 dark:text-gray-400 group-hover:text-purple-800 dark:group-hover:text-purple-400'}`}>ΚΑΤ' ΕΠΙΛΟΓΗΝ</span>
                                     <span className="text-[10px] text-gray-400 dark:text-gray-500 font-medium hidden sm:inline-block">Υποχρεωτικά Ροών</span>
                                 </div>
                             </div>
@@ -320,7 +296,7 @@ const SemesterSection: React.FC<SemesterSectionProps> = memo(({
                                 <div className={`w-8 h-8 rounded-lg flex items-center justify-center transition-colors ${isOpen('free') ? 'bg-emerald-100 dark:bg-emerald-900/40 text-emerald-600 dark:text-emerald-400' : 'bg-gray-100 dark:bg-gray-800 text-gray-400 dark:text-gray-500 group-hover:bg-emerald-50 dark:group-hover:bg-emerald-900/40 group-hover:text-emerald-500 dark:group-hover:text-emerald-400'}`}>
                                    <span className="font-black text-xs">Ε</span>
                                 </div>
-                                <span className={`font-bold text-sm uppercase tracking-wide transition-colors ${isOpen('free') ? 'text-emerald-900 dark:text-emerald-300' : 'text-gray-600 dark:text-gray-400 group-hover:text-emerald-800 dark:group-hover:text-emerald-400'}`}>Ελευθερα / Αλλα</span>
+                                <span className={`font-bold text-sm uppercase tracking-wide transition-colors ${isOpen('free') ? 'text-emerald-900 dark:text-emerald-300' : 'text-gray-600 dark:text-gray-400 group-hover:text-emerald-800 dark:group-hover:text-emerald-400'}`}>ΕΛΕΥΘΕΡΑ / ΑΛΛΑ</span>
                             </div>
                             <div className="flex items-center gap-3">
                                 <span className="text-xs font-bold text-gray-400 dark:text-gray-500 bg-gray-100 dark:bg-gray-800 px-2.5 py-1 rounded-full">{data.free.length}</span>
@@ -342,13 +318,13 @@ const SemesterSection: React.FC<SemesterSectionProps> = memo(({
 
                 {/* Right: Hours (Theory, Lab) */}
                 <div className="flex gap-6 items-center">
-                    <div className="flex items-center gap-2" title="Ώρες Θεωρίας">
+                    <div className="flex items-center gap-2" title="Ωρες Θεωρίας">
                         <span className="p-1.5 bg-white dark:bg-gray-800 rounded-md border border-gray-200 dark:border-gray-700 shadow-sm text-blue-600 dark:text-blue-400">
                              <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" /></svg>
                         </span>
                         <span>Θεωρία: <strong className="text-gray-800 dark:text-gray-100 text-sm ml-1">{data.totalLectureHours}</strong> ω</span>
                     </div>
-                    <div className="flex items-center gap-2" title="Ώρες Εργαστηρίου">
+                    <div className="flex items-center gap-2" title="Ωρες Εργαστηρίου">
                         <span className="p-1.5 bg-white dark:bg-gray-800 rounded-md border border-gray-200 dark:border-gray-700 shadow-sm text-purple-600 dark:text-purple-400">
                              <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19.428 15.428a2 2 0 00-1.022-.547l-2.384-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" /></svg>
                         </span>

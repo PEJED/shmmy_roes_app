@@ -133,6 +133,7 @@ export const WizardProvider: React.FC<{ children: React.ReactNode }> = ({ childr
 
   useEffect(() => {
     if (lockedCourseIds.length > 0) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setSelectedCourseIds(prev => {
         const newSet = new Set(prev);
         lockedCourseIds.forEach(id => newSet.add(id));
@@ -244,6 +245,7 @@ export const WizardProvider: React.FC<{ children: React.ReactNode }> = ({ childr
   );
 };
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const useWizard = () => {
   const context = useContext(WizardContext);
   if (!context) throw new Error('useWizard must be used within a WizardProvider');

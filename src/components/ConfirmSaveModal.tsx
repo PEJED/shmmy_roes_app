@@ -33,7 +33,7 @@ const ConfirmSaveModal: React.FC<ConfirmSaveModalProps> = ({ isOpen, onClose, on
         </div>
 
         <p className="text-sm text-gray-600 dark:text-gray-300 mb-6 font-medium">
-          Έχετε αλλάξει κατεύθυνση ή ροές σε σχέση με το αρχικό αρχείο. Είστε σίγουροι ότι θέλετε να αποθηκεύσετε τις αλλαγές στο τρέχον αρχείο ή θέλετε να δημιουργήσετε ένα νέο;
+          Εχετε αλλάξει κατεύθυνση ή ροές σε σχέση με το αρχικό προφίλ. Είστε σίγουροι ότι θέλετε να αποθηκεύσετε τις αλλαγές στο τρέχον προφίλ ή θέλετε να δημιουργήσετε ένα νέο;
         </p>
 
         <div className="flex flex-col gap-2">
@@ -47,7 +47,7 @@ const ConfirmSaveModal: React.FC<ConfirmSaveModalProps> = ({ isOpen, onClose, on
             onClick={onSaveAsNew}
             className="w-full py-2.5 rounded-xl border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-300 text-sm font-bold hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
           >
-            Δημιουργία νέου αρχείου
+            Δημιουργία νέου προφίλ
           </button>
           <button
             onClick={onClose}

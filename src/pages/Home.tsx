@@ -28,8 +28,8 @@ const WizardOrchestrator: React.FC = () => {
     }
   };
 
-  // Default name for a new profile, e.g. "Αρχείο 3"
-  const defaultProfileName = `Αρχείο ${savedProfiles.length + 1}`;
+  // Default name for a new profile, e.g. "Προφίλ 3"
+  const defaultProfileName = `Προφίλ ${savedProfiles.length + 1}`;
 
   const executeSave = () => {
     updateProfile();
@@ -133,10 +133,10 @@ const WizardOrchestrator: React.FC = () => {
               <button
                 onClick={() => setSidebarOpen(true)}
                 className="relative p-2 rounded-xl text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-blue-600 dark:hover:text-blue-400 transition-colors group"
-                title="Αποθηκευμένα Αρχεία"
+                title="Αποθηκευμένα Προφίλ"
               >
                 <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4" />
                 </svg>
                 {savedProfiles.length > 0 && (
                   <span className="absolute -top-0.5 -right-0.5 w-4 h-4 bg-blue-600 text-white text-[9px] font-black rounded-full flex items-center justify-center">
@@ -146,9 +146,6 @@ const WizardOrchestrator: React.FC = () => {
               </button>
 
               <h1 className="text-xl sm:text-2xl font-black text-gray-900 dark:text-white tracking-tight flex items-center gap-3">
-                <span className="bg-gradient-to-br from-blue-600 to-indigo-700 text-white p-2 rounded-xl shadow-md">
-                  <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" /></svg>
-                </span>
                 ΣΗΜΜΥ Οδηγός 2024-25
               </h1>
             </div>
@@ -239,7 +236,7 @@ const WizardOrchestrator: React.FC = () => {
                       onClick={handleSaveClick}
                       id="save-header-btn"
                       className="flex items-center gap-1.5 px-3 py-2 text-indigo-700 dark:text-indigo-300 text-xs font-bold hover:bg-indigo-100 dark:hover:bg-indigo-900/50 transition-colors"
-                      title="Αποθήκευση αλλαγών στο τρέχον αρχείο"
+                      title="Αποθήκευση αλλαγών στο τρέχον προφίλ"
                     >
                       <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4" />
@@ -250,7 +247,7 @@ const WizardOrchestrator: React.FC = () => {
                     <button
                       onClick={() => setSaveModalOpen(true)}
                       className="flex items-center px-2 py-2 text-indigo-700 dark:text-indigo-300 hover:bg-indigo-100 dark:hover:bg-indigo-900/50 transition-colors"
-                      title="Αποθήκευση ως νέο αρχείο..."
+                      title="Αποθήκευση ως νέο προφίλ..."
                     >
                       <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />

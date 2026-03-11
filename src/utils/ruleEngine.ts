@@ -1,5 +1,5 @@
 import type { Course } from '../types/Course';
-import type { FlowSelection, Direction } from './flowValidation';
+import { type FlowSelection, type Direction, FLOW_NAMES } from './flowValidation';
 import { FLOW_RULES } from '../data/flowRules';
 
 export { type Direction };
@@ -9,6 +9,11 @@ export const DIRECTIONS = {
     informatics: 'Πληροφορικής',
     communications: 'Επικοινωνιών',
     energy: 'Ενέργειας'
+};
+
+export const getFlowNameForWarning = (code: string) => {
+    const name = FLOW_NAMES[code] || `Ροή ${code}`;
+    return name === 'Κορμός' ? 'ΚΟΡΜΟΣ' : name;
 };
 
 // Flow Definitions
@@ -48,7 +53,7 @@ export const calculateDetailedStats = (
 
     // --- 0. Total Courses Check ---
     if (totalSelectedCount !== 25) {
-         warnings.push(`Απαιτούνται ακριβώς 25 μαθήματα για τη λήψη διπλώματος (Έχετε επιλέξει: ${totalSelectedCount}).`);
+         warnings.push(`Απαιτούνται ακριβώς 25 μαθήματα για τη λήψη διπλώματος (Εχετε επιλέξει: ${totalSelectedCount}).`);
     }
 
     // --- 0b. Course Pool Check: Must pick 1 of {3068, 3450} ---
@@ -90,7 +95,7 @@ export const calculateDetailedStats = (
         // Special Flows (I, O) are always Full if selected
         if (SPECIAL_FLOWS.includes(flowCode)) {
             if (isHalf) {
-                warnings.push(`Ροή ${flowCode}: Οι ειδικές ροές επιλέγονται μόνο ως Ολόκληρες.`);
+                warnings.push(`${getFlowNameForWarning(flowCode)}: Οι ειδικές ροές επιλέγονται μόνο ως Ολόκληρες.`);
             }
             reqTotal = 7;
             reqCompulsory = 4;
@@ -121,14 +126,14 @@ export const calculateDetailedStats = (
 
         // Check Compulsory Count
         if (compulsoryCount < reqCompulsory) {
-            warnings.push(`Ροή ${flowCode} (${isFull ? 'Ολόκληρη' : 'Μισή'}): Απαιτούνται τουλάχιστον ${reqCompulsory} υποχρεωτικά μαθήματα (Επιλέξατε: ${compulsoryCount}).`);
+            warnings.push(`${getFlowNameForWarning(flowCode)} (${isFull ? 'Ολόκληρη' : 'Μισή'}): Απαιτούνται τουλάχιστον ${reqCompulsory} υποχρεωτικά μαθήματα (Επιλέξατε: ${compulsoryCount}).`);
             isComplete = false;
         }
 
         // Check Total Count (Only warn if LESS than required, no warning for MORE since they become free electives)
         if (totalCount < reqTotal) {
              const typeStr = isFull ? 'Ολόκληρη' : 'Μισή';
-             warnings.push(`Ροή ${flowCode} (${typeStr}): Απαιτούνται τουλάχιστον ${reqTotal} μαθήματα (Επιλέξατε: ${totalCount}).`);
+             warnings.push(`${getFlowNameForWarning(flowCode)} (${typeStr}): Απαιτούνται τουλάχιστον ${reqTotal} μαθήματα (Επιλέξατε: ${totalCount}).`);
              isComplete = false;
         }
 
@@ -137,7 +142,7 @@ export const calculateDetailedStats = (
              ruleObj.options.forEach((optGroup: string[], idx: number) => {
                 const hasOne = optGroup.some((id: string) => selectedIds.has(id));
                 if (!hasOne) {
-                    warnings.push(`Ροή ${flowCode}: Πρέπει να επιλέξετε ένα από τα μαθήματα της ομάδας επιλογής ${idx + 1}.`);
+                    warnings.push(`${getFlowNameForWarning(flowCode)}: Πρέπει να επιλέξετε ένα από τα μαθήματα της ομάδας επιλογής ${idx + 1}.`);
                     isComplete = false;
                 }
             });
@@ -157,7 +162,7 @@ export const calculateDetailedStats = (
     // --- 3. Global Limits ---
 
     const freeElectives = selectedCourses.filter(c => {
-        if (c.flow_code === 'P') return false; // Κορμός courses are never *automatically* free electives
+        if (c.flow_code === 'P') return false; // ΚΟΡΜΟΣ courses are never *automatically* free electives
         if (c.flow_code === HUMANITIES || c.type === 'humanities') return false; // Tracked separately
         if (c.flow_code === NON_FLOW) return false; // Tracked separately
         
@@ -182,19 +187,19 @@ export const calculateDetailedStats = (
 
     const freeCount = freeElectives.length + extraFlowCoursesCount;
     if (freeCount > 5) {
-        warnings.push(`Έχετε επιλέξει ${freeCount} ελεύθερα μαθήματα (Μέγιστο: 5).`);
+        warnings.push(`Εχετε επιλέξει ${freeCount} ελεύθερα μαθήματα (Μέγιστο: 5).`);
     }
 
     // Humanities Limit (K or type 'humanities')
     const humanitiesCount = selectedCourses.filter(c => c.flow_code === HUMANITIES || c.type === 'humanities').length;
     if (humanitiesCount > 1) {
-        warnings.push(`Έχετε επιλέξει ${humanitiesCount} ανθρωπιστικά μαθήματα (Μέγιστο: 1).`);
+        warnings.push(`Εχετε επιλέξει ${humanitiesCount} ανθρωπιστικά μαθήματα (Μέγιστο: 1).`);
     }
 
     // Non-Flow Limit (G)
     const nonFlowCount = selectedCourses.filter(c => c.flow_code === NON_FLOW).length;
     if (nonFlowCount > 1) {
-        warnings.push(`Έχετε επιλέξει ${nonFlowCount} μαθήματα εκτός ροών (Μέγιστο: 1).`);
+        warnings.push(`Εχετε επιλέξει ${nonFlowCount} μαθήματα εκτός ροών (Μέγιστο: 1).`);
     }
 
     // --- 4. 6th Semester Rule ---
@@ -208,7 +213,7 @@ export const calculateDetailedStats = (
                 let isCompulsoryDynamic = c.is_flow_compulsory;
                 const flowSel = flowSelections[c.flow_code];
                 if (flowSel && flowSel !== 'none') {
-                    let rule = FLOW_RULES[c.flow_code]?.[flowSel];
+                    const rule = FLOW_RULES[c.flow_code]?.[flowSel];
                     const ruleObj = typeof rule === 'function' ? rule(direction) : rule;
 
                     if (ruleObj) {

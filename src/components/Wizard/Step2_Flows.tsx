@@ -16,11 +16,11 @@ const Step2Flows: React.FC = () => {
 
   const [showFlowInfo, setShowFlowInfo] = useState(false);
 
+  const configSectionRef = React.useRef<HTMLDivElement>(null);
+
   if (!direction) return <div>No direction selected</div>;
 
   const combinations = COMBINATIONS[direction];
-
-  const configSectionRef = React.useRef<HTMLDivElement>(null);
 
   const handleCombinationSelect = (combId: string) => {
     if (selectedCombinationId === combId) return;
@@ -46,7 +46,7 @@ const Step2Flows: React.FC = () => {
     const exclude = [...Object.keys(comb.required), ...(comb.option.excludeCodes || [])];
     return Object.keys(FLOW_NAMES).filter(code =>
       !exclude.includes(code) &&
-      !['K', 'X', 'G', 'M', 'F'].includes(code)
+      !['K', 'X', 'G', 'M', 'F', 'P'].includes(code)
     );
   };
 
@@ -306,7 +306,7 @@ const Step2Flows: React.FC = () => {
             <div className="p-8 pt-4 overflow-y-auto w-full">
               <div className="space-y-6">
                 {Object.entries(FLOW_NAMES).map(([code, name]) => {
-                 if (['X', 'K'].includes(code)) return null;
+                 if (['X', 'K', 'P'].includes(code)) return null;
                  return (
                    <div key={code} className="p-5 bg-gray-50 dark:bg-gray-800/50 rounded-2xl border border-gray-100 dark:border-gray-700 hover:border-indigo-200 dark:hover:border-indigo-800/50 hover:bg-indigo-50/30 dark:hover:bg-indigo-900/20 transition-colors group">
                       <div className="flex items-center gap-3 mb-2">

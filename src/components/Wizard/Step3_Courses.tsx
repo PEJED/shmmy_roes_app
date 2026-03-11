@@ -7,20 +7,20 @@ import { FLOW_RULES } from '../../data/flowRules';
 import { evaluateRules } from '../../utils/ruleEvaluator';
 import SemesterSection from './SemesterSection';
 
-// 6 visually distinct warm-tone palettes for rule warnings (light + dark variants each)
+// 6 visually distinct cool-tone palettes for rule warnings (light + dark variants each)
 const COLORS = [
-    // 1. Standard Orange
-    'border-orange-400 dark:border-orange-700 bg-orange-50 dark:bg-orange-900/35 text-orange-900 dark:text-orange-300',
-    // 2. Deep Amber
-    'border-amber-500 dark:border-amber-700 bg-amber-100 dark:bg-amber-900/40 text-amber-900 dark:text-amber-300',
-    // 3. Yellow-Orange (warm saffron)
-    'border-yellow-400 dark:border-yellow-700 bg-yellow-50 dark:bg-yellow-900/30 text-yellow-900 dark:text-yellow-300',
-    // 4. Burnt Red-Orange
-    'border-red-400 dark:border-red-800 bg-red-50 dark:bg-red-900/30 text-red-900 dark:text-red-300',
-    // 5. Deep Gold / Saffron
-    'border-amber-600 dark:border-amber-600 bg-amber-50 dark:bg-amber-900/25 text-amber-800 dark:text-amber-200',
-    // 6. Soft Peach / Light Coral
-    'border-orange-300 dark:border-orange-700 bg-orange-100/60 dark:bg-orange-800/25 text-orange-800 dark:text-orange-400',
+    // 1. Fuchsia
+    'border-fuchsia-400 dark:border-fuchsia-500/40 bg-fuchsia-50 dark:bg-fuchsia-500/10 text-fuchsia-900 dark:text-fuchsia-300',
+    // 2. Purple
+    'border-purple-400 dark:border-purple-500/40 bg-purple-50 dark:bg-purple-500/10 text-purple-900 dark:text-purple-300',
+    // 3. Violet
+    'border-violet-400 dark:border-violet-500/40 bg-violet-50 dark:bg-violet-500/10 text-violet-900 dark:text-violet-300',
+    // 4. Indigo
+    'border-indigo-400 dark:border-indigo-400/40 bg-indigo-50 dark:bg-indigo-400/10 text-indigo-900 dark:text-indigo-200',
+    // 5. Blue (cyan-ish or standard blue)
+    'border-blue-400 dark:border-blue-400/40 bg-blue-50 dark:bg-blue-400/10 text-blue-900 dark:text-blue-200',
+    // 6. Pink
+    'border-pink-400 dark:border-pink-400/40 bg-pink-50 dark:bg-pink-400/10 text-pink-900 dark:text-pink-200',
 ];
 
 interface Step3CoursesProps {
@@ -70,7 +70,7 @@ const Step3Courses: React.FC<Step3CoursesProps> = ({ onSaveRequest }) => {
           colors[r.ruleId] = COLORS[idx % COLORS.length];
       });
       return colors;
-  }, [ruleStatuses.length]);
+  }, [ruleStatuses]);
 
   const detailedStats = useMemo(() => {
     const selected = courses.filter(c => selectedCourseIds.includes(String(c.id)));
@@ -87,7 +87,7 @@ const Step3Courses: React.FC<Step3CoursesProps> = ({ onSaveRequest }) => {
           });
       }
       return set;
-  }, [detailedStats.flowStats]);
+  }, [detailedStats]);
 
   const generalWarnings = detailedStats.warnings;
 
@@ -180,7 +180,7 @@ const Step3Courses: React.FC<Step3CoursesProps> = ({ onSaveRequest }) => {
       grouped[sem] = { compulsory, flow_elective, free, totalSelected, totalECTS, totalLectureHours, totalLabHours };
     });
     return grouped;
-  }, [flowSelections, direction, selectedCourseIds, getCourseCategory]);
+  }, [selectedCourseIds, getCourseCategory]);
 
   const searchResults = useMemo(() => {
       if (!searchTerm.trim()) return [];
@@ -242,8 +242,8 @@ const Step3Courses: React.FC<Step3CoursesProps> = ({ onSaveRequest }) => {
               <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" />
               <div className="relative bg-white dark:bg-gray-900 rounded-2xl shadow-2xl border border-gray-200 dark:border-gray-700 p-6 max-w-sm w-full animate-in fade-in zoom-in-95 duration-200" onClick={e => e.stopPropagation()}>
                   <div className="flex items-center gap-3 mb-4">
-                      <div className="w-10 h-10 bg-red-100 dark:bg-red-900/40 rounded-full flex items-center justify-center shrink-0">
-                          <svg className="w-5 h-5 text-red-600 dark:text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
+                      <div className="w-10 h-10 bg-rose-100 dark:bg-rose-500/20 rounded-full flex items-center justify-center shrink-0">
+                          <svg className="w-5 h-5 text-rose-600 dark:text-rose-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
                       </div>
                       <div>
                           <h4 className="font-black text-gray-900 dark:text-gray-100 text-base">Είστε σίγουροι;</h4>
@@ -259,7 +259,7 @@ const Step3Courses: React.FC<Step3CoursesProps> = ({ onSaveRequest }) => {
                       </button>
                       <button
                           onClick={clearAllCourses}
-                          className="flex-1 py-2.5 rounded-xl bg-red-600 hover:bg-red-700 text-white text-sm font-bold transition-colors shadow-sm shadow-red-200 dark:shadow-red-900/30"
+                          className="flex-1 py-2.5 rounded-xl bg-rose-600 hover:bg-rose-700 text-white text-sm font-bold transition-colors shadow-sm shadow-rose-200 dark:shadow-rose-500/20"
                       >
                           Εκκαθάριση
                       </button>
@@ -270,100 +270,103 @@ const Step3Courses: React.FC<Step3CoursesProps> = ({ onSaveRequest }) => {
 
       {/* Main Content (Left) */}
       <div className="flex-1 p-4 lg:p-8 order-2 lg:order-1 lg:overflow-visible overflow-x-hidden">
-        <div className="flex flex-wrap justify-between items-center mb-8 gap-4">
-            <div className="flex items-center gap-3">
+        <div className="flex flex-col gap-4 mb-8">
+            <div className="flex flex-wrap justify-between items-center gap-4">
                 <h2 className="text-2xl md:text-3xl font-black text-gray-900 dark:text-gray-100 tracking-tight">Επιλογή Μαθημάτων</h2>
-                <button
-                    onClick={() => setHideWarnings(!hideWarnings)}
-                    className={`px-3 py-1.5 border rounded-xl text-xs font-bold transition-colors shadow-sm flex items-center gap-1.5 shrink-0 ${
-                        hideWarnings 
-                        ? 'bg-orange-50 dark:bg-orange-900/30 border-orange-200 dark:border-orange-800 text-orange-700 dark:text-orange-400 hover:bg-orange-100 dark:hover:bg-orange-900/50' 
-                        : 'bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800'
-                    }`}
-                    title={hideWarnings ? "Εμφάνιση Προειδοποιήσεων" : "Απόκρυψη Προειδοποιήσεων"}
-                >
-                    {hideWarnings ? (
-                        <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" /></svg>
-                    ) : (
-                        <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21" /></svg>
-                    )}
-                    <span className="hidden sm:inline">{hideWarnings ? 'Εμφάνιση Warnings' : 'Απόκρυψη Warnings'}</span>
-                </button>
-                <button
-                    onClick={() => setShowClearConfirm(true)}
-                    className="px-3 py-1.5 bg-white dark:bg-gray-800 border border-red-200 dark:border-red-900/50 text-red-600 dark:text-red-400 rounded-xl text-xs font-bold hover:bg-red-50 dark:hover:bg-red-900/30 transition-colors shadow-sm flex items-center gap-1.5 shrink-0"
-                >
-                    <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
-                    <span className="hidden sm:inline">Εκκαθάριση Όλων</span>
-                </button>
-            </div>
-            <div className="flex flex-1 items-center justify-end gap-2 min-w-[280px]">
-                <div className="relative flex-1 max-w-sm" ref={searchWrapperRef}>
-                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                        <svg className="h-4 w-4 text-gray-400 dark:text-gray-500 z-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                        </svg>
-                    </div>
-                    <input
-                        type="text"
-                        placeholder="Αναζήτηση μαθήματος..."
-                        value={searchTerm}
-                        onChange={(e) => setSearchTerm(e.target.value)}
-                        onFocus={() => setIsSearchFocused(true)}
-                        className="w-full pl-9 pr-4 py-2 border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 rounded-xl focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:border-blue-500 dark:focus:border-blue-400 transition-colors shadow-sm text-sm font-medium outline-none"
-                    />
-                    
-                    {/* Clear search button (X) */}
-                    {searchTerm && (
-                        <button
-                            onClick={() => { setSearchTerm(''); setIsSearchFocused(false); }}
-                            className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
-                        >
-                            <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
-                        </button>
-                    )}
-                    {isSearchFocused && searchTerm.trim() !== '' && (
-                        <div className="absolute top-full left-0 right-0 mt-2 bg-white dark:bg-gray-800 rounded-xl shadow-[0_10px_40px_rgba(0,0,0,0.15)] border border-gray-200 dark:border-gray-700 overflow-hidden z-50 max-h-[60vh] overflow-y-auto animate-in fade-in slide-in-from-top-2 duration-200">
-                            {searchResults.length > 0 ? (
-                                <div className="py-2">
-                                    <div className="px-4 pb-2 text-[10px] font-bold uppercase text-gray-400 dark:text-gray-500 tracking-wider border-b border-gray-100 dark:border-gray-750 mb-1">Αποτελεσματα</div>
-                                    {searchResults.map(c => (
-                                        <button
-                                            key={c.id}
-                                            onMouseDown={(e) => {
-                                                e.preventDefault(); // Prevent input blur
-                                                handleCourseJump(c);
-                                            }}
-                                            className="w-full text-left px-4 py-3 hover:bg-blue-50 dark:hover:bg-blue-900/40 border-b border-gray-50 dark:border-gray-750 last:border-0 transition-colors flex flex-col gap-1 group"
-                                        >
-                                            <div className="font-bold text-sm text-gray-800 dark:text-gray-100 group-hover:text-blue-700 dark:group-hover:text-blue-400 transition-colors leading-tight">{c.title}</div>
-                                            <div className="text-[10px] font-bold text-gray-400 dark:text-gray-500 flex items-center gap-1.5 uppercase tracking-wide">
-                                                <span className="bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-md border border-gray-200 dark:border-gray-600">Εξ. {c.semester}</span>
-                                                {c.flow_code && c.flow_code !== 'X' && c.flow_code !== 'K' && (
-                                                    <span className="bg-purple-50 dark:bg-purple-900/30 text-purple-700 dark:text-purple-400 border border-purple-100 dark:border-purple-800 px-2 py-0.5 rounded-md">Ροη {c.flow_code}</span>
-                                                )}
-                                                {getCourseCategory(c) === 'compulsory' && (
-                                                    <span className="text-blue-600 dark:text-blue-400 font-bold">Υποχρεωτικο</span>
-                                                )}
-                                            </div>
-                                        </button>
-                                    ))}
-                                </div>
-                            ) : (
-                                <div className="p-6 text-center text-sm font-bold text-gray-500 dark:text-gray-400 flex flex-col items-center gap-2">
-                                    <svg className="w-8 h-8 text-gray-300 dark:text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                                    Δεν βρέθηκαν μαθήματα
-                                </div>
-                            )}
-                        </div>
-                    )}
+                <div className="flex items-center gap-2 flex-wrap">
+                    <button
+                        onClick={() => setHideWarnings(!hideWarnings)}
+                        className={`px-3 py-1.5 border rounded-xl text-xs font-bold transition-colors shadow-sm flex items-center gap-1.5 shrink-0 ${
+                            hideWarnings 
+                            ? 'bg-purple-50 dark:bg-purple-500/10 border-purple-200 dark:border-purple-500/30 text-purple-700 dark:text-purple-300 hover:bg-purple-100 dark:hover:bg-purple-500/20' 
+                            : 'bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800'
+                        }`}
+                        title={hideWarnings ? "Εμφάνιση Προειδοποιήσεων" : "Απόκρυψη Προειδοποιήσεων"}
+                    >
+                        {hideWarnings ? (
+                            <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" /></svg>
+                        ) : (
+                            <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21" /></svg>
+                        )}
+                        <span className="hidden sm:inline">{hideWarnings ? 'Εμφάνιση Warnings' : 'Απόκρυψη Warnings'}</span>
+                    </button>
+                    <button
+                        onClick={() => setShowClearConfirm(true)}
+                        className="px-3 py-1.5 bg-white dark:bg-gray-800 border border-rose-200 dark:border-rose-500/30 text-rose-600 dark:text-rose-400 rounded-xl text-xs font-bold hover:bg-rose-50 dark:hover:bg-rose-500/10 transition-colors shadow-sm flex items-center gap-1.5 shrink-0"
+                    >
+                        <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
+                        <span className="hidden sm:inline">Εκκαθάριση Ολων</span>
+                    </button>
                 </div>
+            </div>
+
+            <div className="relative w-full" ref={searchWrapperRef}>
+                <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
+                    <svg className="h-4 w-4 text-gray-400 dark:text-gray-500 z-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                    </svg>
+                </div>
+                <input
+                    type="text"
+                    placeholder="Αναζήτηση μαθήματος..."
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    onFocus={() => setIsSearchFocused(true)}
+                    className="w-full pl-10 pr-10 py-3 border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800/80 text-gray-900 dark:text-gray-100 rounded-xl focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:border-blue-500 dark:focus:border-blue-400 transition-colors shadow-sm text-sm font-medium outline-none"
+                />
+                
+                {/* Clear search button (X) */}
+                {searchTerm && (
+                    <button
+                        onClick={() => { setSearchTerm(''); setIsSearchFocused(false); }}
+                        className="absolute inset-y-0 right-0 pr-3.5 flex items-center text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
+                    >
+                        <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
+                    </button>
+                )}
+                {isSearchFocused && searchTerm.trim() !== '' && (
+                    <div className="absolute top-full left-0 right-0 mt-2 bg-white dark:bg-gray-800 rounded-xl shadow-[0_10px_40px_rgba(0,0,0,0.15)] border border-gray-200 dark:border-gray-700 overflow-hidden z-50 max-h-[60vh] overflow-y-auto animate-in fade-in slide-in-from-top-2 duration-200">
+                        {searchResults.length > 0 ? (
+                            <div className="py-2">
+                                <div className="px-4 pb-2 text-[10px] font-bold uppercase text-gray-400 dark:text-gray-500 tracking-wider border-b border-gray-100 dark:border-gray-750 mb-1">ΑΠΟΤΕΛΕΣΜΑΤΑ</div>
+                                {searchResults.map(c => (
+                                    <button
+                                        key={c.id}
+                                        onMouseDown={(e) => {
+                                            e.preventDefault(); // Prevent input blur
+                                            handleCourseJump(c);
+                                        }}
+                                        className="w-full text-left px-4 py-3 hover:bg-blue-50 dark:hover:bg-blue-900/40 border-b border-gray-50 dark:border-gray-750 last:border-0 transition-colors flex flex-col gap-1 group"
+                                    >
+                                        <div className="font-bold text-sm text-gray-800 dark:text-gray-100 group-hover:text-blue-700 dark:group-hover:text-blue-400 transition-colors leading-tight">{c.title}</div>
+                                        <div className="text-[10px] font-bold text-gray-400 dark:text-gray-500 flex items-center gap-1.5 uppercase tracking-wide">
+                                            <span className="bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-md border border-gray-200 dark:border-gray-600">ΕΞ. {c.semester}</span>
+                                            {c.flow_code && c.flow_code !== 'X' && c.flow_code !== 'K' && (
+                                                <span className="bg-purple-50 dark:bg-purple-900/30 text-purple-700 dark:text-purple-400 border border-purple-100 dark:border-purple-800 px-2 py-0.5 rounded-md">
+                                                    {(FLOW_NAMES[c.flow_code] || `ΡΟΗ ${c.flow_code}`).normalize("NFD").replace(/[\u0300-\u036f]/g, "").toUpperCase()}
+                                                </span>
+                                            )}
+                                            {getCourseCategory(c) === 'compulsory' && (
+                                                <span className="text-blue-600 dark:text-blue-400 font-bold">ΥΠΟΧΡΕΩΤΙΚΟ</span>
+                                            )}
+                                        </div>
+                                    </button>
+                                ))}
+                            </div>
+                        ) : (
+                            <div className="p-6 text-center text-sm font-bold text-gray-500 dark:text-gray-400 flex flex-col items-center gap-2">
+                                <svg className="w-8 h-8 text-gray-300 dark:text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                                Δεν βρέθηκαν μαθήματα
+                            </div>
+                        )}
+                    </div>
+                )}
             </div>
         </div>
 
         {/* Info Banner */}
-        <div className="mb-8 p-5 bg-blue-50/80 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800/50 rounded-2xl text-sm text-blue-900 dark:text-blue-200 flex gap-4 items-start shadow-sm backdrop-blur-sm">
-             <div className="bg-blue-100 dark:bg-blue-900/40 p-2.5 rounded-full text-blue-600 dark:text-blue-400 shrink-0">
+        <div className="mb-8 p-5 bg-blue-50/80 dark:bg-blue-500/10 border border-blue-200 dark:border-blue-500/30 rounded-2xl text-sm text-blue-900 dark:text-blue-200 flex gap-4 items-start shadow-sm backdrop-blur-sm">
+             <div className="bg-blue-100 dark:bg-blue-500/20 p-2.5 rounded-full text-blue-600 dark:text-blue-400 shrink-0">
                 <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
              </div>
              <div className="space-y-3">
@@ -371,7 +374,7 @@ const Step3Courses: React.FC<Step3CoursesProps> = ({ onSaveRequest }) => {
                 <p>Το πλήθος των μαθημάτων <strong>ανά εξάμηνο</strong> δεν πρέπει να υπερβαίνει τα <strong>12</strong>.</p>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 bg-white/60 dark:bg-gray-800/60 p-3 rounded-xl border border-blue-100/50 dark:border-blue-800/50">
                     <div>
-                        <span className="font-bold block mb-1 text-xs uppercase text-blue-800 dark:text-blue-300">Προτεινόμενα Όρια (βάσει Μ.Ο.):</span>
+                        <span className="font-bold block mb-1 text-xs uppercase text-blue-800 dark:text-blue-300">ΠΡΟΤΕΙΝΟΜΕΝΑ ΟΡΙΑ (βάσει Μ.Ο.):</span>
                         <ul className="list-disc list-inside text-xs space-y-1 text-blue-800/80 dark:text-blue-300/80 font-medium">
                             <li>7 για μ.ο. ≤ 8.5</li>
                             <li>8 για 8.5 &lt; μ.ο ≤ 9</li>
@@ -429,178 +432,294 @@ const Step3Courses: React.FC<Step3CoursesProps> = ({ onSaveRequest }) => {
               Πίσω στη Δομή
             </button>
 
-            <h3 className="text-xl font-black text-gray-800 dark:text-gray-100 mb-6 pb-2 border-b border-gray-100 dark:border-gray-800">Σύνοψη</h3>
+            <div className="flex items-center justify-between mb-6 pb-4 border-b border-gray-100 dark:border-gray-800">
+                <h3 className="text-xl font-black text-gray-900 dark:text-gray-100 flex items-center gap-2.5">
+                    <div className="p-2 bg-blue-100 dark:bg-blue-500/20 rounded-xl">
+                        <svg className="w-5 h-5 text-blue-600 dark:text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
+                        </svg>
+                    </div>
+                    Σύνοψη
+                </h3>
+            </div>
 
-            {/* Real-Time Progress Bar Section */}
-            <div className="mb-6 p-6 bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50 dark:from-indigo-900/20 dark:via-purple-900/20 dark:to-pink-900/20 border-2 border-indigo-100 dark:border-indigo-800/30 rounded-2xl shadow-md relative overflow-hidden group">
-                <div className="absolute inset-0 bg-white/40 dark:bg-gray-900/40"></div>
-                <div className="absolute top-0 right-0 w-24 h-24 bg-white/30 dark:bg-gray-900/30 rounded-bl-full -mr-8 -mt-8 transition-transform group-hover:scale-110"></div>
-                <div className="relative z-10">
-                    <div className="flex justify-between items-end mb-2">
-                        <div className="text-[10px] font-bold uppercase tracking-widest text-indigo-700 dark:text-indigo-300">Συνολο Μαθηματων</div>
-                        <div className="text-[10px] font-bold text-indigo-700 dark:text-indigo-300">{Math.round((selectedCourseIds.length / 25) * 100)}%</div>
+            {/* Premium Progress Card */}
+            <div className="mb-8 relative group">
+                <div className="absolute -inset-0.5 bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-600 rounded-3xl blur opacity-20 group-hover:opacity-30 transition duration-500"></div>
+                <div className="relative bg-white dark:bg-gray-800/90 backdrop-blur-xl border border-white/50 dark:border-gray-700/50 rounded-3xl p-6 shadow-xl overflow-hidden">
+                    {/* Background Decorative Element */}
+                    <div className="absolute top-0 right-0 -mr-8 -mt-8 w-32 h-32 bg-indigo-500/5 dark:bg-indigo-400/10 rounded-full blur-3xl"></div>
+                    
+                    <div className="flex justify-between items-start mb-6">
+                        <div>
+                            <div className="text-[10px] font-black uppercase tracking-[0.2em] text-blue-600 dark:text-blue-400 mb-1">ΠΡΟΟΔΟΣ ΠΤΥΧΙΟΥ</div>
+                            <div className="flex items-baseline gap-1.5">
+                                <span className={`text-5xl font-black tracking-tighter ${selectedCourseIds.length > 25 ? 'text-rose-500' : selectedCourseIds.length === 25 ? 'text-emerald-500' : 'text-gray-900 dark:text-gray-100'}`}>
+                                    {selectedCourseIds.length}
+                                </span>
+                                <span className="text-xl font-bold text-gray-400 dark:text-gray-500">/ 25</span>
+                            </div>
+                        </div>
+                        <div className="relative w-16 h-16 flex items-center justify-center">
+                            <svg className="w-full h-full transform -rotate-90">
+                                <circle
+                                    cx="32"
+                                    cy="32"
+                                    r="28"
+                                    stroke="currentColor"
+                                    strokeWidth="6"
+                                    fill="transparent"
+                                    className="text-gray-100 dark:text-gray-700"
+                                />
+                                <circle
+                                    cx="32"
+                                    cy="32"
+                                    r="28"
+                                    stroke="url(#progressGradient)"
+                                    strokeWidth="6"
+                                    fill="transparent"
+                                    strokeDasharray={175.9}
+                                    strokeDashoffset={175.9 - (Math.min(selectedCourseIds.length / 25, 1) * 175.9)}
+                                    strokeLinecap="round"
+                                    className="transition-all duration-1000 ease-out"
+                                />
+                                <defs>
+                                    <linearGradient id="progressGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                        <stop offset="0%" stopColor="#3b82f6" />
+                                        <stop offset="100%" stopColor="#8b5cf6" />
+                                    </linearGradient>
+                                </defs>
+                            </svg>
+                            <span className="absolute text-[10px] font-black text-indigo-600 dark:text-indigo-400">
+                                {Math.round((selectedCourseIds.length / 25) * 100)}%
+                            </span>
+                        </div>
                     </div>
 
-                    {/* Visual Progress Bar */}
-                    <div className="w-full bg-indigo-200/60 dark:bg-indigo-900/40 rounded-full h-2.5 mb-4 overflow-hidden">
-                      <div className={`h-2.5 rounded-full transition-all duration-500 ${selectedCourseIds.length > 25 ? 'bg-red-500' : selectedCourseIds.length === 25 ? 'bg-emerald-500' : 'bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500'}`} style={{ width: `${Math.min((selectedCourseIds.length / 25) * 100, 100)}%` }}></div>
+                    {/* Progress Bar with Multiple Stages */}
+                    <div className="relative h-3 w-full bg-gray-100 dark:bg-gray-700/50 rounded-full overflow-hidden p-0.5">
+                        <div 
+                            className={`h-full rounded-full transition-all duration-700 ease-out ${
+                                selectedCourseIds.length > 25 
+                                ? 'bg-rose-500 shadow-[0_0_12px_rgba(244,63,94,0.4)]' 
+                                : selectedCourseIds.length === 25 
+                                ? 'bg-emerald-500 shadow-[0_0_12px_rgba(16,185,129,0.4)]' 
+                                : 'bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-600 shadow-[0_0_12px_rgba(99,102,241,0.3)]'
+                            }`}
+                            style={{ width: `${Math.min((selectedCourseIds.length / 25) * 100, 100)}%` }}
+                        />
                     </div>
 
-                    <div className="flex items-baseline gap-2">
-                        <span className={`text-5xl font-black tracking-tight transition-colors ${selectedCourseIds.length > 25 ? 'text-red-500 dark:text-red-400' : selectedCourseIds.length === 25 ? 'text-emerald-500 dark:text-emerald-400' : 'text-indigo-900 dark:text-indigo-200'}`}>
-                            {selectedCourseIds.length}
-                        </span>
-                        <span className="text-xl text-indigo-700/80 dark:text-indigo-400/80 font-medium">/ 25</span>
-                    </div>
                     {selectedCourseIds.length > 25 && (
-                        <div className="text-xs font-bold text-red-700 dark:text-red-400 mt-3 flex items-center gap-1.5 bg-red-100 dark:bg-red-900/30 p-2 rounded-lg border border-red-200 dark:border-red-900/50 animate-in fade-in zoom-in duration-300">
-                            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
-                            Υπέρβαση ορίου μαθημάτων!
+                        <div className="mt-4 flex items-center gap-2 px-3 py-2 bg-rose-50 dark:bg-rose-500/10 border border-rose-100 dark:border-rose-500/20 rounded-xl animate-in fade-in slide-in-from-top-1">
+                            <div className="p-1 bg-rose-500 rounded-full">
+                                <svg className="w-3 h-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
+                            </div>
+                            <span className="text-[11px] font-bold text-rose-700 dark:text-rose-400 uppercase tracking-wide">Υπέρβαση ορίου μαθημάτων</span>
                         </div>
                     )}
                 </div>
             </div>
 
-            {/* General Stats (Free, Humanities, Non-Flow) */}
-            <div className="grid grid-cols-3 gap-2 mb-8">
-                 <div className="bg-gray-50 dark:bg-gray-800/50 p-2 rounded-xl text-center border border-gray-100 dark:border-gray-700">
-                     <div className={`text-xl font-black leading-none ${detailedStats.freeCount > 5 ? 'text-red-600 dark:text-red-400' : 'text-gray-800 dark:text-gray-100'}`}>
-                         {Math.max(0, 5 - detailedStats.freeCount)}
-                     </div>
-                     <div className="text-[9px] uppercase font-bold text-gray-500 dark:text-gray-400 mt-1">Απομενουν</div>
-                     <div className="text-[9px] text-gray-400 dark:text-gray-500 font-medium">Ελεύθερα (max 5)</div>
-                 </div>
-                 <div className="bg-gray-50 dark:bg-gray-800/50 p-2 rounded-xl text-center border border-gray-100 dark:border-gray-700">
-                     <div className={`text-xl font-black leading-none ${detailedStats.humanitiesCount > 1 ? 'text-red-600 dark:text-red-400' : 'text-gray-800 dark:text-gray-100'}`}>
-                         {Math.max(0, 1 - detailedStats.humanitiesCount)}
-                     </div>
-                     <div className="text-[9px] uppercase font-bold text-gray-500 dark:text-gray-400 mt-1">Απομενουν</div>
-                     <div className="text-[9px] text-gray-400 dark:text-gray-500 font-medium">Ανθρωπιστικά (max 1)</div>
-                 </div>
-                 <div className="bg-gray-50 dark:bg-gray-800/50 p-2 rounded-xl text-center border border-gray-100 dark:border-gray-700">
-                     <div className={`text-xl font-black leading-none ${detailedStats.nonFlowCount > 1 ? 'text-red-600 dark:text-red-400' : 'text-gray-800 dark:text-gray-100'}`}>
-                         {Math.max(0, 1 - detailedStats.nonFlowCount)}
-                     </div>
-                     <div className="text-[9px] uppercase font-bold text-gray-500 dark:text-gray-400 mt-1">Απομενουν</div>
-                     <div className="text-[9px] text-gray-400 dark:text-gray-500 font-medium">Εκτός Ροών (max 1)</div>
-                 </div>
-            </div>
-
             <div className="space-y-4 mb-8">
                 {Object.entries(detailedStats.flowStats).map(([key, stat]) => {
                     const greekKey = FLOW_NAMES[key]?.replace(/Flow |Ροή /g, '') || key;
-                    const isFlow = true;
-
-                    if (!isFlow) return null;
-
+                    const flowLabel = greekKey === 'Κορμός' ? 'Κορμός' : `Ροή ${greekKey}`;
+                    
                     return (
-                        <div key={key} className={`p-4 bg-white dark:bg-gray-800 border rounded-xl shadow-sm hover:shadow-md transition-all ${stat.isComplete ? 'border-green-200 dark:border-green-800/50 bg-green-50/30 dark:bg-green-900/20' : 'border-gray-100 dark:border-gray-700/50'}`}>
-                            <div className="flex justify-between items-center mb-3">
-                                <span className="font-bold text-gray-800 dark:text-gray-100 text-sm flex items-center gap-2">
-                                    Ροή {greekKey}
+                        <div key={key} className={`group relative p-4 rounded-2xl border transition-all duration-300 ${
+                            stat.isComplete 
+                            ? 'bg-emerald-50/50 dark:bg-emerald-500/5 border-emerald-100 dark:border-emerald-500/20' 
+                            : 'bg-white dark:bg-gray-800/40 border-gray-100 dark:border-gray-800 hover:border-indigo-200 dark:hover:border-indigo-500/30 hover:shadow-lg hover:shadow-indigo-500/5'
+                        }`}>
+                            <div className="flex flex-col gap-3">
+                                <div className="flex justify-between items-center">
+                                    <div className="flex items-center gap-2.5 min-w-0">
+                                        <div className={`p-2 rounded-lg shrink-0 ${
+                                            stat.isComplete ? 'bg-emerald-100 dark:bg-emerald-500/20 text-emerald-600' : 'bg-gray-100 dark:bg-gray-800 text-gray-500'
+                                        }`}>
+                                            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d={stat.isComplete ? "M5 13l4 4L19 7" : "M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"} />
+                                            </svg>
+                                        </div>
+                                        <span className="font-bold text-gray-900 dark:text-gray-100 text-sm truncate uppercase tracking-wide">
+                                            {flowLabel}
+                                        </span>
+                                    </div>
                                     {stat.isComplete && (
-                                        <svg className="w-4 h-4 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>
+                                        <span className="text-[10px] font-black text-emerald-600 dark:text-emerald-400 bg-emerald-100 dark:bg-emerald-500/20 px-2 py-1 rounded-md uppercase tracking-widest">
+                                            ΟΛΟΚΛΗΡΩΣΗ
+                                        </span>
                                     )}
-                                </span>
-                                <div className={`flex-1 rounded-lg p-2 text-center border ${stat.missingCompulsory === 0 ? 'bg-green-50 dark:bg-green-900/20 border-green-200 dark:border-green-800/50' : 'bg-red-50 dark:bg-red-900/20 border-red-200 dark:border-red-800/50'}`}>
-                                    <div className={`text-lg font-black leading-none ${stat.missingCompulsory === 0 ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'}`}>
-                                        {stat.missingCompulsory === 0 ? (
-                                            <svg className="w-5 h-5 mx-auto text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" /></svg>
-                                        ) : stat.missingCompulsory}
-                                    </div>
-                                    <div className={`text-[9px] font-bold uppercase mt-1 ${stat.missingCompulsory === 0 ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'}`} title={`Απαιτούνται ${stat.requiredCompulsory}`}>
-                                       {stat.missingCompulsory === 0 ? 'ΟΛΟΚΛΗΡΩΣΗ' : 'ΑΠΟΜΕΝΟΥΝ ΥΠΟΧ.'}
-                                    </div>
                                 </div>
-                                <div className={`flex-1 rounded-lg p-2 text-center border ${stat.missingTotal === 0 ? 'bg-green-50 dark:bg-green-900/20 border-green-200 dark:border-green-800/50' : 'bg-orange-50 dark:bg-orange-900/20 border-orange-200 dark:border-orange-800/50'}`}>
-                                    <div className={`text-lg font-black leading-none ${stat.missingTotal === 0 ? 'text-green-600 dark:text-green-400' : 'text-orange-600 dark:text-orange-400'}`}>
-                                        {stat.missingTotal === 0 ? (
-                                            <svg className="w-5 h-5 mx-auto text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" /></svg>
-                                        ) : stat.missingTotal}
+
+                                {!stat.isComplete && (
+                                    <div className="flex gap-2">
+                                        <div className="flex-1 flex flex-col gap-1">
+                                            <div className="flex items-center justify-between text-[10px] font-bold text-gray-400 dark:text-gray-500 uppercase tracking-wider px-1">
+                                                <span>Υποχρεωτικά</span>
+                                                <span className={stat.missingCompulsory === 0 ? 'text-emerald-500' : 'text-rose-500'}>
+                                                    {stat.requiredCompulsory - stat.missingCompulsory}/{stat.requiredCompulsory}
+                                                </span>
+                                            </div>
+                                            <div className="h-1.5 w-full bg-gray-100 dark:bg-gray-800 rounded-full overflow-hidden">
+                                                <div 
+                                                    className="h-full bg-rose-500 transition-all duration-500"
+                                                    style={{ width: `${((stat.requiredCompulsory - stat.missingCompulsory) / stat.requiredCompulsory) * 100}%` }}
+                                                />
+                                            </div>
+                                        </div>
+                                        <div className="flex-1 flex flex-col gap-1">
+                                            <div className="flex items-center justify-between text-[10px] font-bold text-gray-400 dark:text-gray-500 uppercase tracking-wider px-1">
+                                                <span>Επιλογής</span>
+                                                <span className={stat.missingTotal === 0 ? 'text-emerald-500' : 'text-fuchsia-500'}>
+                                                    {stat.requiredTotal - stat.missingTotal}/{stat.requiredTotal}
+                                                </span>
+                                            </div>
+                                            <div className="h-1.5 w-full bg-gray-100 dark:bg-gray-800 rounded-full overflow-hidden">
+                                                <div 
+                                                    className="h-full bg-fuchsia-500 transition-all duration-500"
+                                                    style={{ width: `${((stat.requiredTotal - stat.missingTotal) / stat.requiredTotal) * 100}%` }}
+                                                />
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div className={`text-[9px] font-bold uppercase mt-1 ${stat.missingTotal === 0 ? 'text-green-600 dark:text-green-400' : 'text-orange-600 dark:text-orange-400'}`} title={`Απαιτούνται συνολικά ${stat.requiredTotal}`}>
-                                        {stat.missingTotal === 0 ? 'ΟΛΟΚΛΗΡΩΣΗ' : 'ΑΠΟΜΕΝΟΥΝ ΕΠΙΛ.'}
+                                )}
+                                
+                                {stat.isComplete && (
+                                    <div className="text-[11px] font-medium text-emerald-700/70 dark:text-emerald-400/60 italic px-1">
+                                        Όλες οι απαιτήσεις της ροής έχουν καλυφθεί.
                                     </div>
-                                </div>
+                                )}
                             </div>
                         </div>
                     );
                 })}
             </div>
 
+            {/* Redesigned Free Electives Slots */}
+            <div className="mb-8 p-5 bg-blue-50/30 dark:bg-blue-500/5 border border-blue-100 dark:border-blue-500/20 rounded-2xl">
+                <div className="flex justify-between items-center mb-4">
+                    <div className="flex items-center gap-2">
+                        <div className="p-1.5 bg-blue-100 dark:bg-blue-500/20 rounded-lg text-blue-600">
+                             <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" /></svg>
+                        </div>
+                        <span className="text-xs font-black text-gray-900 dark:text-gray-100 uppercase tracking-wider">ΕΛΕΥΘΕΡΑ</span>
+                    </div>
+                    <div className="flex items-baseline gap-1">
+                        <span className={`text-lg font-black ${detailedStats.freeCount > 5 ? 'text-rose-500' : 'text-blue-600 dark:text-blue-400'}`}>
+                            {detailedStats.freeCount}
+                        </span>
+                        <span className="text-xs font-bold text-gray-400">/ 5</span>
+                    </div>
+                </div>
+
+                {/* Slot Visualization */}
+                <div className="flex gap-2">
+                    {[1, 2, 3, 4, 5].map(slot => (
+                        <div 
+                            key={slot}
+                            className={`flex-1 h-2 rounded-full transition-all duration-500 ${
+                                slot <= detailedStats.freeCount 
+                                ? (detailedStats.freeCount > 5 ? 'bg-rose-500 shadow-[0_0_8px_rgba(244,63,94,0.3)]' : 'bg-blue-500 shadow-[0_0_8px_rgba(59,130,246,0.3)]')
+                                : 'bg-gray-100 dark:bg-gray-800'
+                            }`}
+                        />
+                    ))}
+                    {detailedStats.freeCount > 5 && (
+                        <div className="px-2 py-0.5 bg-rose-500 text-white text-[9px] font-black rounded-md animate-pulse">
+                            +{detailedStats.freeCount - 5}
+                        </div>
+                    )}
+                </div>
+            </div>
+
             {sidebarWarnings.length > 0 && (
-              <div className="p-4 bg-orange-50/80 dark:bg-orange-900/20 border border-orange-200 dark:border-orange-800/50 rounded-xl mb-6 backdrop-blur-sm">
-                 <h4 className="font-bold text-orange-900 dark:text-orange-300 mb-3 text-xs uppercase flex items-center gap-2 tracking-wider">
-                   <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
-                   Εκκρεμοτητες
+              <div className="p-5 bg-amber-50/50 dark:bg-amber-500/5 border border-amber-100 dark:border-amber-500/20 rounded-2xl mb-8">
+                 <h4 className="font-bold text-amber-700 dark:text-amber-400 mb-4 text-[10px] uppercase flex items-center gap-2 tracking-[0.15em]">
+                   <div className="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse"></div>
+                   ΕΚΚΡΕΜΟΤΗΤΕΣ
                  </h4>
-                 <ul className="text-xs text-orange-800 dark:text-orange-400 space-y-2 list-disc list-inside font-medium">
+                 <ul className="space-y-3">
                    {sidebarWarnings.map((w, idx) => (
-                     <li key={idx} className="leading-snug opacity-90">{w}</li>
+                     <li key={idx} className="flex gap-2.5 items-start text-[11px] leading-relaxed text-gray-600 dark:text-gray-400 font-medium group">
+                       <span className="mt-0.5 h-3.5 w-3.5 flex items-center justify-center rounded-full bg-amber-100 dark:bg-amber-500/20 text-amber-600 flex-shrink-0 group-hover:scale-110 transition-transform">
+                          <svg className="w-2.5 h-2.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
+                       </span>
+                       {w}
+                     </li>
                    ))}
                  </ul>
               </div>
             )}
 
-            <div className="pt-4 border-t border-gray-100 dark:border-gray-800 sticky bottom-0 bg-white dark:bg-gray-900 pb-6 lg:pb-0 space-y-3">
-               {/* Save profile button */}
-               {activeProfileId ? (
-                 <div className="flex items-stretch rounded-xl border-2 border-indigo-200 dark:border-indigo-800/50 bg-indigo-50 dark:bg-indigo-900/20 overflow-hidden shadow-sm">
-                   <button
-                     onClick={() => {
-                        updateProfile();
-                        const btn = document.getElementById('save-sidebar-btn');
-                        if (btn) {
-                          const oldHtml = btn.innerHTML;
-                          btn.innerHTML = '<svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" /></svg> Αποθηκεύτηκε!';
-                          btn.classList.add('bg-green-100', 'dark:bg-green-900/50', 'text-green-700', 'dark:text-green-300');
-                          setTimeout(() => {
-                            btn.innerHTML = oldHtml;
-                            btn.classList.remove('bg-green-100', 'dark:bg-green-900/50', 'text-green-700', 'dark:text-green-300');
-                          }, 2000);
-                        }
-                     }}
-                     id="save-sidebar-btn"
-                     className="flex-1 py-3 font-bold text-indigo-700 dark:text-indigo-300 hover:bg-indigo-100 dark:hover:bg-indigo-900/40 transition-colors flex items-center justify-center gap-2 text-sm"
-                   >
-                     <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4" />
-                     </svg>
-                     Αποθήκευση
-                   </button>
-                   <div className="w-[2px] bg-indigo-200 dark:bg-indigo-800/50"></div>
+            <div className="pt-6 border-t border-gray-100 dark:border-gray-800 sticky bottom-0 bg-white/80 dark:bg-gray-900/80 backdrop-blur-xl pb-6 lg:pb-0 space-y-4">
+               {/* Premium Save Section */}
+               <div className="grid grid-cols-5 gap-2">
+                 {activeProfileId ? (
+                   <>
+                     <button
+                       onClick={() => {
+                          updateProfile();
+                          const btn = document.getElementById('save-sidebar-btn');
+                          if (btn) {
+                            const oldHtml = btn.innerHTML;
+                            btn.innerHTML = '<svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" /></svg>';
+                            btn.classList.add('bg-emerald-500', 'text-white', 'border-emerald-500');
+                            btn.classList.remove('text-indigo-600', 'dark:text-indigo-400');
+                            setTimeout(() => {
+                              btn.innerHTML = oldHtml;
+                              btn.classList.remove('bg-emerald-500', 'text-white', 'border-emerald-500');
+                              btn.classList.add('text-indigo-600', 'dark:text-indigo-400');
+                            }, 2000);
+                          }
+                       }}
+                       id="save-sidebar-btn"
+                       className="col-span-4 py-3.5 rounded-2xl font-black text-indigo-600 dark:text-indigo-400 border-2 border-indigo-100 dark:border-indigo-500/20 bg-indigo-50/50 dark:bg-indigo-500/5 hover:bg-indigo-100 dark:hover:bg-indigo-500/10 transition-all flex items-center justify-center gap-2.5 text-xs uppercase tracking-widest shadow-sm active:scale-[0.98]"
+                     >
+                       <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4" />
+                       </svg>
+                       Ενημερωση
+                     </button>
+                     <button
+                       onClick={onSaveRequest}
+                       className="col-span-1 py-3.5 rounded-2xl border-2 border-gray-100 dark:border-gray-800 flex items-center justify-center hover:bg-gray-50 dark:hover:bg-gray-800 transition-all active:scale-[0.98]"
+                       title="Αποθήκευση ως νέο..."
+                     >
+                       <svg className="w-5 h-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M12 4v16m8-8H4" />
+                       </svg>
+                     </button>
+                   </>
+                 ) : onSaveRequest && (
                    <button
                      onClick={onSaveRequest}
-                     className="px-4 text-indigo-700 dark:text-indigo-300 hover:bg-indigo-100 dark:hover:bg-indigo-900/40 transition-colors flex items-center justify-center"
-                     title="Αποθήκευση ως νέο αρχείο..."
+                     className="col-span-5 py-3.5 rounded-2xl font-black text-indigo-600 dark:text-indigo-400 border-2 border-indigo-100 dark:border-indigo-500/20 bg-indigo-50/50 dark:bg-indigo-500/5 hover:bg-indigo-100 dark:hover:bg-indigo-500/10 transition-all flex items-center justify-center gap-2.5 text-xs uppercase tracking-widest shadow-sm"
                    >
                      <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4" />
                      </svg>
+                     Αποθηκευση Προφιλ
                    </button>
-                 </div>
-               ) : onSaveRequest && (
-                 <button
-                   onClick={onSaveRequest}
-                   className="w-full py-3 rounded-xl font-bold text-indigo-700 dark:text-indigo-300 border-2 border-indigo-200 dark:border-indigo-800/50 bg-indigo-50 dark:bg-indigo-900/20 hover:bg-indigo-100 dark:hover:bg-indigo-900/40 transition-colors flex items-center justify-center gap-2 text-sm"
-                 >
-                   <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4" />
-                   </svg>
-                   Αποθήκευση Αρχείου
-                 </button>
-               )}
+                 )}
+               </div>
+
                <button
                  disabled={!isComplete}
-                 className={`w-full py-4 rounded-xl font-bold text-white shadow-xl transition-all transform flex items-center justify-center gap-2
+                 className={`w-full py-4.5 rounded-2xl font-black text-xs uppercase tracking-[0.2em] shadow-xl transition-all transform flex items-center justify-center gap-2.5 active:scale-[0.98]
                    ${isComplete
-                     ? 'bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 hover:-translate-y-1 shadow-blue-200/50 dark:shadow-blue-900/20 ring-4 ring-blue-500/20 dark:ring-blue-900/30'
-                     : 'bg-gray-200 dark:bg-gray-800 text-gray-400 dark:text-gray-500 cursor-not-allowed shadow-none'}
+                     ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white hover:shadow-blue-500/25 dark:hover:shadow-indigo-500/20'
+                     : 'bg-gray-100 dark:bg-gray-800 text-gray-400 dark:text-gray-500 cursor-not-allowed shadow-none border border-gray-200/50 dark:border-gray-700/50'}
                  `}
                  onClick={() => alert('Η επιλογή ολοκληρώθηκε επιτυχώς!')}
                >
-                 <span>Ολοκλήρωση</span>
-                 {isComplete && <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>}
+                 <span>Ολοκληρωση</span>
+                 {isComplete && (
+                    <div className="p-1 bg-white/20 rounded-full">
+                        <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" /></svg>
+                    </div>
+                 )}
                </button>
             </div>
         </div>
@@ -609,9 +728,9 @@ const Step3Courses: React.FC<Step3CoursesProps> = ({ onSaveRequest }) => {
       {/* Mobile Sticky Action Bar */}
       <div className="lg:hidden fixed bottom-0 left-0 right-0 bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-800 p-4 shadow-[0_-8px_30px_rgb(0,0,0,0.12)] z-40 flex items-center justify-between">
           <div className="flex flex-col">
-              <span className="text-[10px] uppercase font-bold text-gray-500 dark:text-gray-400 tracking-wider">Συνολο</span>
+              <span className="text-[10px] uppercase font-bold text-gray-500 dark:text-gray-400 tracking-wider">ΣΥΝΟΛΟ</span>
               <div className="flex items-baseline gap-1">
-                  <span className={`text-2xl font-black ${selectedCourseIds.length > 25 ? 'text-red-500 dark:text-red-400' : selectedCourseIds.length === 25 ? 'text-green-500 dark:text-green-400' : 'text-gray-900 dark:text-gray-100'}`}>{selectedCourseIds.length}</span>
+                  <span className={`text-2xl font-black ${selectedCourseIds.length > 25 ? 'text-rose-500 dark:text-rose-400' : selectedCourseIds.length === 25 ? 'text-green-500 dark:text-green-400' : 'text-gray-900 dark:text-gray-100'}`}>{selectedCourseIds.length}</span>
                   <span className="text-sm font-medium text-gray-400 dark:text-gray-500">/ 25</span>
               </div>
           </div>

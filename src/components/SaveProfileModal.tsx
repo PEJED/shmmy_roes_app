@@ -13,6 +13,7 @@ const SaveProfileModal: React.FC<SaveProfileModalProps> = ({ isOpen, onClose, on
 
   useEffect(() => {
     if (isOpen) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setName(defaultName);
       setTimeout(() => inputRef.current?.select(), 50);
     }
@@ -51,7 +52,7 @@ const SaveProfileModal: React.FC<SaveProfileModalProps> = ({ isOpen, onClose, on
             </svg>
           </div>
           <div>
-            <h3 className="font-black text-gray-900 dark:text-gray-100 text-lg leading-tight">Αποθήκευση Αρχείου</h3>
+            <h3 className="font-black text-gray-900 dark:text-gray-100 text-lg leading-tight">Αποθήκευση Προφίλ</h3>
             <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">Δώστε όνομα στην επιλογή σας</p>
           </div>
         </div>

@@ -58,7 +58,7 @@ function ProfileCard({
           )}
           {activeFlows.map(f => (
             <span key={f.id} className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-purple-100 dark:bg-purple-900/40 text-purple-700 dark:text-purple-300 border border-purple-200 dark:border-purple-800/50">
-              Ροή {f.name} {f.isHalf && '(Μισή)'}
+              {f.name === 'Κορμός' ? 'Κορμός' : `Ροή ${f.name}`} {f.isHalf && '(Μισή)'}
             </span>
           ))}
           <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 border border-gray-200 dark:border-gray-600">
@@ -168,7 +168,7 @@ const SavedProfilesSidebar: React.FC<SavedProfilesSidebarProps> = ({ isOpen, onC
                 </svg>
               </div>
               <div>
-                <p className="font-bold text-gray-500 dark:text-gray-400 text-sm">Κανένα αποθηκευμένο αρχείο</p>
+                <p className="font-bold text-gray-500 dark:text-gray-400 text-sm">Κανένα αποθηκευμένο προφίλ</p>
                 <p className="text-xs text-gray-400 dark:text-gray-500 mt-1">Επιλέξτε μαθήματα και αποθηκεύστε τις επιλογές σας</p>
               </div>
             </div>

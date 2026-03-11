@@ -1,0 +1,78 @@
+
+> app@0.0.0 lint
+> eslint .
+
+
+C:\Users\johnp\simmy-roes-app\src\components\SaveProfileModal.tsx
+  16:7  error  Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+C:\Users\johnp\simmy-roes-app\src\components\SaveProfileModal.tsx:16:7
+  14 |   useEffect(() => {
+  15 |     if (isOpen) {
+> 16 |       setName(defaultName);
+     |       ^^^^^^^ Avoid calling setState() directly within an effect
+  17 |       setTimeout(() => inputRef.current?.select(), 50);
+  18 |     }
+  19 |   }, [isOpen, defaultName]);  react-hooks/set-state-in-effect
+
+C:\Users\johnp\simmy-roes-app\src\components\Wizard\Step2_Flows.tsx
+  23:28  error  React Hook "React.useRef" is called conditionally. React Hooks must be called in the exact same order in every component render  react-hooks/rules-of-hooks
+
+C:\Users\johnp\simmy-roes-app\src\components\Wizard\Step3_Courses.tsx
+   73:6  warning  React Hook useMemo has a missing dependency: 'ruleStatuses'. Either include it or remove the dependency array                          react-hooks/exhaustive-deps
+   90:6  warning  React Hook useMemo has a missing dependency: 'detailedStats'. Either include it or remove the dependency array                         react-hooks/exhaustive-deps
+  183:6  warning  React Hook useMemo has unnecessary dependencies: 'direction' and 'flowSelections'. Either exclude them or remove the dependency array  react-hooks/exhaustive-deps
+
+C:\Users\johnp\simmy-roes-app\src\context\ThemeContext.tsx
+  47:14  error  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+
+C:\Users\johnp\simmy-roes-app\src\context\WizardContext.tsx
+  136:7   error  Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+C:\Users\johnp\simmy-roes-app\src\context\WizardContext.tsx:136:7
+  134 |   useEffect(() => {
+  135 |     if (lockedCourseIds.length > 0) {
+> 136 |       setSelectedCourseIds(prev => {
+      |       ^^^^^^^^^^^^^^^^^^^^ Avoid calling setState() directly within an effect
+  137 |         const newSet = new Set(prev);
+  138 |         lockedCourseIds.forEach(id => newSet.add(id));
+  139 |         return Array.from(newSet);  react-hooks/set-state-in-effect
+  247:14  error  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             react-refresh/only-export-components
+
+C:\Users\johnp\simmy-roes-app\src\scripts\verifyRules.ts
+  17:5   error  'validFlows1' is never reassigned. Use 'const' instead     prefer-const
+  18:5   error  'res1' is never reassigned. Use 'const' instead            prefer-const
+  22:5   error  'validFlows2' is never reassigned. Use 'const' instead     prefer-const
+  23:5   error  'res2' is never reassigned. Use 'const' instead            prefer-const
+  27:5   error  'invalidFlows1' is never reassigned. Use 'const' instead   prefer-const
+  28:5   error  'res3' is never reassigned. Use 'const' instead            prefer-const
+  33:5   error  'validFlows3' is never reassigned. Use 'const' instead     prefer-const
+  34:5   error  'res4' is never reassigned. Use 'const' instead            prefer-const
+  39:5   error  'fakeCourses' is never reassigned. Use 'const' instead     prefer-const
+  48:5   error  'stats1' is never reassigned. Use 'const' instead          prefer-const
+  48:52  error  Unexpected any. Specify a different type                   @typescript-eslint/no-explicit-any
+  53:5   error  'fake6thCourses' is never reassigned. Use 'const' instead  prefer-const
+  58:5   error  'stats2' is never reassigned. Use 'const' instead          prefer-const
+  58:76  error  Unexpected any. Specify a different type                   @typescript-eslint/no-explicit-any
+  61:5   error  'fake6thFail' is never reassigned. Use 'const' instead     prefer-const
+  65:5   error  'stats3' is never reassigned. Use 'const' instead          prefer-const
+  65:73  error  Unexpected any. Specify a different type                   @typescript-eslint/no-explicit-any
+
+C:\Users\johnp\simmy-roes-app\src\utils\ruleEngine.ts
+  211:25  error  'rule' is never reassigned. Use 'const' instead  prefer-const
+
+✖ 26 problems (23 errors, 3 warnings)
+  15 errors and 0 warnings potentially fixable with the `--fix` option.
+

@@ -33,7 +33,7 @@ const ConfirmRestartModal: React.FC<ConfirmRestartModalProps> = ({ isOpen, onClo
         </div>
 
         <p className="text-sm text-gray-600 dark:text-gray-300 mb-6 font-medium">
-          Είστε σίγουροι ότι θέλετε να ξεκινήσετε από την αρχή; Όλες οι τρέχουσες μη αποθηκευμένες επιλογές σας θα χαθούν.
+          Είστε σίγουροι ότι θέλετε να ξεκινήσετε από την αρχή; Ολες οι τρέχουσες μη αποθηκευμένες επιλογές σας θα χαθούν.
         </p>
 
         <div className="flex flex-col gap-2">
